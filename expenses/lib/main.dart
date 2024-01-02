@@ -8,7 +8,7 @@ import 'components/transaction_list.dart';
 import 'components/transaction_form.dart';
 import 'components/chart.dart';
 import './models/transaction.dart';
-
+//flutter run --no-enable-impeller
 main() => runApp(const ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {

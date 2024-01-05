@@ -23,8 +23,8 @@ class AdaptativeDatePicker extends StatelessWidget {
   {
     showDatePicker( 
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
+      initialDate: DateTime.now().subtract(const Duration(hours: 3)),
+      firstDate: DateTime(2023),
       lastDate: DateTime.now(),
     ).then((pickedDate)
     { 
@@ -45,8 +45,8 @@ class AdaptativeDatePicker extends StatelessWidget {
           height: 180,
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.date,
-            initialDateTime: DateTime.now(),
-            minimumDate: DateTime(2019),
+            initialDateTime: DateTime.now().subtract(const Duration(hours: 3)),
+            minimumDate: DateTime(2023),
             maximumDate: DateTime.now(),
             onDateTimeChanged: onDateChanged,
           ),
@@ -59,15 +59,16 @@ class AdaptativeDatePicker extends StatelessWidget {
                 Expanded(
                   // texto que aparece no modal
                   child: Text(
-                    // ignore: unnecessary_null_comparison
-                    selectedDate == null
-                        ? 'Nenhuma Data Selecionada !'
-                        : 'Data Selecionada : ${DateFormat('dd/MM/y').format(selectedDate)}',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                      // ignore: unnecessary_null_comparison
+                      selectedDate == null
+                          ? 'Nenhuma Data Selecionada !'
+                          : 'Data Selecionada : ${DateFormat('dd/MM/y').format(selectedDate)}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        
+                      ),
+                    ),  
                 ),
 
                 // botão de selecionar a data

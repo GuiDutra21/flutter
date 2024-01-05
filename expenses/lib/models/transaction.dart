@@ -1,7 +1,6 @@
 // Classe que representa o modelo das transactions
 class Transaction
 {
-  
   // Atributos
   final String id;
   final String title;
@@ -10,10 +9,10 @@ class Transaction
 
   // Construtor
   Transaction(
-    {
-      required this.id,
-      required this.title,
-      required this.value,
-      required this.date,
-    });
+  {
+    required this.id,
+    required this.title,
+    required this.value,
+    required this.date,
+  });
 }

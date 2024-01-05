@@ -46,7 +46,6 @@ class _TransactionFormState extends State<TransactionForm> {
   Widget build(BuildContext context) {
     return Card(
         // Campo onde entramos com os dados da transação
-        elevation: 5,
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -67,7 +66,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 onSubmitted: (_) => _submitForm(),
                 ),
 
-              //Chama o Date Picker de acordo com cada S.O.
+              // Chama o Date Picker de acordo com cada S.O.
               AdaptativeDatePicker(
                 selectedDate: _selectedDate,
                 onDateChanged: (newDate)

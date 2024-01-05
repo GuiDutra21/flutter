@@ -8,6 +8,7 @@ import 'components/transaction_list.dart';
 import 'components/transaction_form.dart';
 import 'components/chart.dart';
 import './models/transaction.dart';
+
 //flutter run --no-enable-impeller
 main() => runApp(const ExpensesApp());
 
@@ -26,10 +27,10 @@ class ExpensesApp extends StatelessWidget {
       // tema do aplicativo no geral
       theme: tema.copyWith(
         colorScheme: tema.colorScheme.copyWith(
-          primary: Colors.purple,
-          secondary: Colors.amber,
+        primary: Colors.purple,
+        secondary: Colors.amber,
         ),
-
+    
         // tema dos textos
         textTheme: tema.textTheme.copyWith(
             titleMedium: const TextStyle( // para textos 'medios'
@@ -45,9 +46,9 @@ class ExpensesApp extends StatelessWidget {
 
         // tema do AppBar
         appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.purple,
           titleTextStyle: TextStyle(
             fontFamily: 'EBGaramond',
-            fontSize: 29,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -125,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Platform.isIOS ?
       GestureDetector(onTap: fn, child: Icon(icon)) // Ícone no IOS
       : 
-      IconButton(icon: Icon(icon), onPressed: fn); // Ícone no Android
+      IconButton(icon: Icon(icon), onPressed: fn, color: Colors.white,); // Ícone no Android
   }
 
   // Retorna a árvore de Widgets
@@ -169,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
         style: TextStyle(
           // elemento que permite a mudança do tamanho da 
           // fonte quando o usuário alterar o tamhanho dos textos nas configurações do celular
-          fontSize: 29 * mediaQuery.textScaleFactor,
+          fontSize: 13 * mediaQuery.devicePixelRatio,
           ),
         ),
       // centraliza o texto do AppBar
@@ -241,6 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Container ()
       : FloatingActionButton(
         onPressed: () => _openTransactionFormModal(context),
+        backgroundColor: Colors.amber,        
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: // posicionamenteo do botão inferior

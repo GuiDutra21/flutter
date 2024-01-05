@@ -30,7 +30,7 @@ class Chart extends StatelessWidget {
         bool sameMonth = recentTransaction[i].date.month == weekDay.month;
         bool sameYear = recentTransaction[i].date.year == weekDay.year;
 
-        if(sameDay && sameMonth && sameYear) //verifica se a transação está no mesmo dia
+        if(sameDay && sameMonth && sameYear) // verifica se a transação está no mesmo dia
         {
           totalSum += recentTransaction[i].value; // se estiver soma o valor
         }
@@ -38,7 +38,7 @@ class Chart extends StatelessWidget {
 
       // Retorno da função genterate
       return {
-      // Retorna a três primeiras letras do dia, para retorna apenas uma basta acrescentar um [0] no final
+      // Retorna as três primeiras letras do dia, para retornar apenas uma basta acrescentar um [0] no final
         'day': DateFormat.E().format(weekDay),
         'value': totalSum, // soma total do dia
       };
@@ -56,12 +56,12 @@ class Chart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card( // Chart
-      elevation: 6,
+    surfaceTintColor: Colors.white,
+      elevation: 8,
       margin: const EdgeInsets.all(20), // margem do Chart
       child: Padding( // envolve os elementos em uma padding
         padding: const EdgeInsets.all(10),
         child: Row( // Linha que representa cada coluna 
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: groupTransaction.map((tr) // passa para o ChartBar cada dia com os seus respectivos elementos
           {
             return Flexible(

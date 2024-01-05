@@ -8,14 +8,14 @@ class Questionario extends StatelessWidget
   final List<Map<String, Object>> perguntas;
   final void Function(int) quandoResponder;
 
-  Questionario({
+  const Questionario({
     required this.perguntaSelecionada,
     required this.perguntas,
     required this.quandoResponder,
     super.key,
     }); 
 
-    bool get temPerguntaSelecionada//getter para evitar passar do indice da quantidade de perguntas
+    bool get temPerguntaSelecionada // getter para evitar passar do indice da quantidade de perguntas
     {
       return perguntaSelecionada < perguntas.length;
     }

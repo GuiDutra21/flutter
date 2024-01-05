@@ -10,7 +10,7 @@ class Resultado extends StatelessWidget
   {
     if(pontuacao < 12)
     {
-      return 'Parabens !!';
+      return 'Sabe pouco !!';
     }
     else if( pontuacao < 17)
     {

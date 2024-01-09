@@ -35,7 +35,7 @@ class ExpensesApp extends StatelessWidget {
         textTheme: tema.textTheme.copyWith(
             titleMedium: const TextStyle( // para textos 'medios'
               fontFamily: 'EBGaramond',
-              fontSize: 24,
+              fontSize: 28,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),

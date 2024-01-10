@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/transaction.dart';
 import 'package:intl/intl.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 // Classe que representa o Widget retângulo das transactions com o nome, valor, e data
 class TransactionItem extends StatelessWidget {

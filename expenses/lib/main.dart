@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _getIconButton(IconData icon, Function() fn)
   {
     return Platform.isIOS ?
-      GestureDetector(onTap: fn, child: Icon(icon)) // Ícone no IOS
+      GestureDetector(onTap: fn, child: Icon(icon,color: Colors.white,)) // Ícone no IOS
       : 
       IconButton(icon: Icon(icon), onPressed: fn, color: Colors.white,); // Ícone no Android
   }
@@ -219,16 +219,20 @@ class _MyHomePageState extends State<MyHomePage> {
     return Platform.isIOS ? 
     CupertinoPageScaffold( // "Scaffold" do IOS
       navigationBar: CupertinoNavigationBar( // "AppBar" do IOS
+              border: Border.all(color: Colors.transparent), // Tira a borda do AppBar
               middle: const Text(
                 'Despesas Pessoais',
                 style: TextStyle(
                   fontSize: 29,
+                  fontFamily: 'EBGaramond',
+                  color: Colors.white
                   ),
                 ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min, // Reduz o tamanho para ocupar exatamente o necessário
                 children: actions,
               ),
+              backgroundColor: Colors.purple,
             ),
       child: bodyPage, 
     )

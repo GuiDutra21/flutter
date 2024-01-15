@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
- 
 import '../models/category.dart';
- 
+
+// Arquivo que contém a lista de categorias dados mocados
  List<Category> DUMMY_CATEGORIES = const [
   Category(
     id: 'c1',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals/screens/categories_screens.dart';
  
 void main() =>  runApp(const MyApp());
  
@@ -8,36 +9,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'DeliMeals',
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.blue
-        ),
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
- 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+      debugShowCheckedModeBanner: false, // Para remover o banner de DEMO
 
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
- 
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('DeliMeals'),
-      ),
-      body: Center(
-        child: Text('Navegar é preciso!!'),
-      ),
+      theme: ThemeData(
+        fontFamily: 'Raleway', // Não sei se está fazendo alguma diferença
+
+        colorScheme:  ColorScheme.fromSwatch(
+            primarySwatch: Colors.pink,
+            backgroundColor: const Color.fromARGB(255, 240, 238, 183),
+          ),
+
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.pink,
+          titleTextStyle: TextStyle( fontFamily: 'Raleway', fontSize: 23)
+          ),
+
+        textTheme: ThemeData.light().textTheme.copyWith(
+          titleLarge: const  TextStyle(
+            fontSize: 20,
+            fontFamily: 'RobotoCondensed'
+          ),
+        ),
+        canvasColor: Colors.amber, // Não sei se está fazendo alguma diferença
+        ),
+        
+      home: const CategoriesScreens(), // Chama a tela principal
     );
   }
 }

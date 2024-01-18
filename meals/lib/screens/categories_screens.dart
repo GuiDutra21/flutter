@@ -11,12 +11,14 @@ class CategoriesScreens extends StatelessWidget
   Widget build (BuildContext context)
   {
     return Scaffold(
+
       appBar: AppBar(
         title: const Text(
           "Vamos Cozinhar ?",
           style: TextStyle(color: Colors.white),
         )
       ),
+
       body: GridView( // Widget responsável por criar esse layout em formato de matriz
         padding: const EdgeInsets.all(20),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -25,10 +27,9 @@ class CategoriesScreens extends StatelessWidget
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
         ),
-        children: DUMMY_CATEGORIES.map((category){
-          return CategoryItem(category); // Itera sobre os dados mocados e chama o componte de cada retângulo
+        children: dummyCategories.map((category){
+          return CategoryItem(category); // Itera sobre os dados mocados e chama cada retângulo
         }).toList(),
-          
       ),
     );
   }

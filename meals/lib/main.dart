@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meals/screens/categories_meals__screen.dart';
 import 'package:meals/screens/categories_screens.dart';
+import 'package:meals/screens/meal_detail_screen.dart';
+import 'utils/app_routes.dart';
  
 void main() =>  runApp(const MyApp());
  
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Raleway', // Não sei se está fazendo alguma diferença
 
         colorScheme:  ColorScheme.fromSwatch(
-            primarySwatch: Colors.pink,
+            primarySwatch: Colors.pink, // Não sei se está fazendo alguma diferença
             backgroundColor: const Color.fromARGB(255, 240, 238, 183),
           ),
 
@@ -30,10 +33,17 @@ class MyApp extends StatelessWidget {
             fontFamily: 'RobotoCondensed'
           ),
         ),
-        canvasColor: Colors.amber, // Não sei se está fazendo alguma diferença
+        canvasColor: Colors.amber,
         ),
-        
-      home: const CategoriesScreens(), // Chama a tela principal
+      
+      // A primeira rota no map é definida como a primeira a ser carregada,
+      // ou seja a tela padrão/princial do aplicativo
+      // Também poderia ter usado o atributo initialRoute:
+      routes: {
+        AppRoutes.home:(context) => const CategoriesScreens(), // Chama a tela principal
+        AppRoutes.categories_meals: (context) => const CategoriesMealsScreen(),
+        AppRoutes.meals_details: (context) => const MealDetailScreen(),
+      }
     );
   }
 }

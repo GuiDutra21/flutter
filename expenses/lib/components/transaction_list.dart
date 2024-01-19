@@ -30,10 +30,16 @@ class TransactionList extends StatelessWidget {
                 height: 20,
               ),
 
-              Text(
-                'Nenhuma Transação cadastrada !',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
+              FittedBox(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      'Nenhuma Transação cadastrada !',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                ),
+              // ),
 
               // sizedbox vazio para apenas dar um pequeno espaço
               const SizedBox(

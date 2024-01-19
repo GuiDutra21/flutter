@@ -16,7 +16,8 @@ class CategoriesScreens extends StatelessWidget
         title: const Text(
           "Vamos Cozinhar ?",
           style: TextStyle(color: Colors.white),
-        )
+        ),
+        centerTitle: true, // Para centralizar o texto no android
       ),
 
       body: GridView( // Widget responsável por criar esse layout em formato de matriz

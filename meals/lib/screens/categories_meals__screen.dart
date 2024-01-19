@@ -23,7 +23,9 @@ class CategoriesMealsScreen extends StatelessWidget
     return Scaffold(
       appBar: AppBar(
         title: Text(category.title),
+        centerTitle: true, // Para centralizar o texto no android
       ),
+      
 
       // Gera uma lista com as Refeições 
       body: ListView.builder(

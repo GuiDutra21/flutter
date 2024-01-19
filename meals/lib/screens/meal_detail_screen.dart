@@ -42,7 +42,9 @@ class MealDetailScreen extends StatelessWidget
     return Scaffold( // Nome da refeição
       appBar: AppBar(
       title: Text(meal.title),
+      centerTitle: true, // Para centralizar o texto no android
       ),
+      
 
       body: SingleChildScrollView(
         child: Column(

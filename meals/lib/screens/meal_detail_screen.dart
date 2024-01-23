@@ -4,7 +4,9 @@ import '../models/meal.dart';
 // Classe que representa os detalhes de uma determianda refeição
 class MealDetailScreen extends StatelessWidget
 {
-  const MealDetailScreen({super.key});
+  final void Function(Meal) _toggleFavorite;
+  final bool Function(Meal) _isFavorite;
+  const MealDetailScreen(this._toggleFavorite,this._isFavorite, {super.key});
 
   Widget _createTitle(BuildContext context, String title)
   {
@@ -19,7 +21,6 @@ class MealDetailScreen extends StatelessWidget
   Widget _createContainer({required Widget child, required double containerHeight})
   {
     return  Container(
-            width: 300,
             height: containerHeight > 255 ? 255: containerHeight,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -27,7 +28,7 @@ class MealDetailScreen extends StatelessWidget
               borderRadius: BorderRadius.circular(10)
             ),
             padding: const EdgeInsets.all(7),
-            margin: const EdgeInsets.fromLTRB(10,10,10,30),
+            margin: const EdgeInsets.fromLTRB(45,10,45,30),
             child: child,
     );
   }
@@ -115,7 +116,17 @@ class MealDetailScreen extends StatelessWidget
              Container(height: 30)
           ]
         ),
-      )
+      ),
+
+      // ícone de favorito
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.amber,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30)
+        ),
+        child: _isFavorite(meal) ? const Icon(Icons.star,color: Colors.black) : const Icon(Icons.star_border,color: Colors.black),
+        onPressed: () => _toggleFavorite(meal),
+      ),
     );
   }
 }

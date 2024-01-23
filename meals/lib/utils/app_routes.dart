@@ -3,4 +3,5 @@ class AppRoutes{
   static const home = '/'; 
   static const categories_meals = '/Categories-Meals'; 
   static const meals_details = '/Meals-Details'; 
+  static const settings = '/Settings'; 
 }

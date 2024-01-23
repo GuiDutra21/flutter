@@ -10,17 +10,7 @@ class CategoriesScreens extends StatelessWidget
   @override
   Widget build (BuildContext context)
   {
-    return Scaffold(
-
-      appBar: AppBar(
-        title: const Text(
-          "Vamos Cozinhar ?",
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true, // Para centralizar o texto no android
-      ),
-
-      body: GridView( // Widget responsável por criar esse layout em formato de matriz
+       return GridView( // Widget responsável por criar esse layout em formato de matriz
         padding: const EdgeInsets.all(20),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200,
@@ -31,7 +21,6 @@ class CategoriesScreens extends StatelessWidget
         children: dummyCategories.map((category){
           return CategoryItem(category); // Itera sobre os dados mocados e chama cada retângulo
         }).toList(),
-      ),
     );
   }
 }

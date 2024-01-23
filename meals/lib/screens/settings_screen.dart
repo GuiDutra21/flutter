@@ -32,6 +32,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       color: const Color.fromARGB(255, 255, 245, 157),
       margin: const EdgeInsets.fromLTRB(20, 7, 20, 7),
       child: SwitchListTile.adaptive(
+        inactiveThumbColor: Colors.amber,
+        inactiveTrackColor: Colors.white,
         title: Text(title),
         subtitle: Text(subtitle),
         value: value,

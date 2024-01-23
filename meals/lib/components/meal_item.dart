@@ -62,7 +62,7 @@ class MealItem extends StatelessWidget
                     horizontal: 15,
                     vertical: 2,
                   ),
-                  width: meal.title.length.toDouble() * 16 > 300? 300:meal.title.length.toDouble() * 16 ,
+                  width: meal.title.length.toDouble() * 17 > 300? 300 : meal.title.length.toDouble() * 17 ,
                   color: Colors.black54,
 
                   child: Text( // Nome das refeições

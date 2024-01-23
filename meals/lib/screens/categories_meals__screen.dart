@@ -34,7 +34,7 @@ class CategoriesMealsScreen extends StatelessWidget
       body: categoryMeals.isNotEmpty ? ListView.builder(
         itemCount: categoryMeals.length,
         itemBuilder: (context, index) => MealItem(meal:categoryMeals[index]))
-        : Container(
+        : Container( // Caso esteja vazio por conta dos filtros
           margin: const EdgeInsets.fromLTRB(15, 50, 15, 20),
           child: Card(
             color:  Colors.amber,

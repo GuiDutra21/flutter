@@ -67,6 +67,7 @@ class _MyAppState extends State<MyApp>{
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.pink,
           titleTextStyle: TextStyle( fontFamily: 'Raleway', fontSize: 23),
+          centerTitle: true, // Para centralizar os titulos no android
           iconTheme: IconThemeData(
             color: Colors.white, // A cor para o ícone do Drawer e para qualquer outro ícone que aparecer no appBar
           ),

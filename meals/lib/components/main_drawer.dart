@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:meals/utils/app_routes.dart';
 
+// Classe que representa o drawer 
+// (parte que aparece na lateral quando selecionamos o ícone com 3 linhas )
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
 
+  // Função para gerar os elementos do drawer
   Widget _createItem(IconData icon, String label, void Function() onTap) {
     return ListTile(
       leading: Icon(
@@ -24,7 +27,8 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData tema = Theme.of(context);
+    ThemeData tema = Theme.of(context);// Só para não ficar chamando várias vezes
+
     return Drawer(
       backgroundColor: tema.colorScheme.background,
       child: SafeArea(
@@ -48,12 +52,17 @@ class MainDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 29),
+            
+            const SizedBox(height: 29), // apenas para dar um espaço
+
+            // Elementos do Drawer (Refeições)
             _createItem(
               Icons.restaurant,
               "Refeições",
               () => Navigator.of(context).pushReplacementNamed(AppRoutes.home),
             ),
+
+            // Elementos do Drawer (Configurações)
             _createItem(
               Icons.settings,
               "Configurações",

@@ -59,6 +59,14 @@ class MealDetailScreen extends StatelessWidget
                const BorderRadius.all(Radius.circular(10)),
                   child: Image.network(
                     meal.imageUrl,
+                    loadingBuilder: (context, child, progress) {
+                    return progress == null ? child: Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.amber,
+                        
+                      ),
+                    );
+                  },
                     fit: BoxFit.cover,
                   ),
                 ),

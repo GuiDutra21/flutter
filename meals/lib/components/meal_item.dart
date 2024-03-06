@@ -15,38 +15,8 @@ class MealItem extends StatefulWidget
   State<MealItem> createState() => _MealItemState();
 }
 
-class _MealItemState extends State<MealItem> with TickerProviderStateMixin {
+class _MealItemState extends State<MealItem> {
   
-  late AnimationController controller;
-  bool showImage = false;
-
-  @override
-  void initState() {
-    controller = AnimationController(
-      /// [AnimationController]s can be created with `vsync: this` because of
-      /// [TickerProviderStateMixin].
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..addListener(() {
-        setState(() {});
-      });
-    controller.repeat(reverse: false);
-
-    // Aguardar 2 segundos antes de iniciar a repetição do controller
-    Future.delayed(const Duration(seconds: 2), () {
-      controller.repeat(reverse: false);
-      setState(() {
-        showImage = true; // Ativar a exibição da imagem após 2 segundos
-      });
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
   // Função que direciona para a tela de detalhes da refeição quando clicamos numa refeição
   void _selectMeal(BuildContext context)
   {
@@ -56,10 +26,9 @@ class _MealItemState extends State<MealItem> with TickerProviderStateMixin {
       );
   }
 
-  // Função que retorna o card todo
-  // necessário para fazer o correto aparecimento do círculo de loading
-  Widget _box()
-  {
+  @override
+  Widget build(BuildContext context)
+  { 
     return InkWell( // Para poder ser clicável
       onTap:() => _selectMeal(context),
       child: Card(
@@ -81,30 +50,19 @@ class _MealItemState extends State<MealItem> with TickerProviderStateMixin {
                   topRight: Radius.circular(15),
                 ),
 
-                // child: Image.network(
-                //   widget.meal.imageUrl,
-                //   loadingBuilder: (context, child, progress) {
-                //     return progress == null ? child: Center(
-                //       child: CircularProgressIndicator(
-                //         backgroundColor: Colors.amber,
-                //          value: controller.value,
-                //       ),
-                //     );
-                //   },
-                //   // height: 300,
-                //   // width: double.infinity,
-                //   // fit: BoxFit.cover, // Para caber na imagem
-                // ),
-                child: showImage ? 
-                Image.network(
+                child: Image.network(
                   widget.meal.imageUrl,
-                ) :
-                Center(
-                  child: CircularProgressIndicator(
-                    value: controller.value,
-                    backgroundColor: Colors.amber,
-                  ),
-                )
+                  loadingBuilder: (context, child, progress) {
+                    return progress == null ? child: const Center(
+                      child: LinearProgressIndicator(
+                        backgroundColor: Colors.amber,
+                      ),
+                    );
+                  },
+                  // height: 300,
+                  // width: double.infinity,
+                  // fit: BoxFit.cover, // Para caber na imagem
+                ),
               ),
 
               Positioned( // Para ter um posicionamento absoluto em relação a imagem
@@ -171,22 +129,5 @@ class _MealItemState extends State<MealItem> with TickerProviderStateMixin {
         )
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context)
-  { 
-    return 
-          showImage ? 
-          _box() :
-          Container(
-            margin: const EdgeInsets.all(25),
-            child: Center(
-              child: CircularProgressIndicator(
-                value: controller.value,
-                backgroundColor: Colors.amber,
-              ),
-            ),
-          );
   }
 }

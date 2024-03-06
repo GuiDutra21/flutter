@@ -6,8 +6,10 @@ import '../models/meal.dart';
 // Tela que representa os pratos de uma determinada categoria
 class CategoriesMealsScreen extends StatelessWidget
 {
-
+  // Atributo
   final List<Meal> meals;
+
+  // Construtor
   const CategoriesMealsScreen(this.meals, {super.key});
 
   @override
@@ -16,7 +18,7 @@ class CategoriesMealsScreen extends StatelessWidget
     // Maneira de obter a categoria sem precisar passar via construtor
     final category = ModalRoute.of(context)?.settings.arguments as Category;
 
-    // Pega apenas as refeições correspponde a categoria
+    // Pega apenas as refeições correspponde a categoria selecionada
     final categoryMeals = meals.where((meal) {
       return meal.categories.contains(category.id);
     } ,).toList();
@@ -33,6 +35,7 @@ class CategoriesMealsScreen extends StatelessWidget
       body: categoryMeals.isNotEmpty ? ListView.builder(
         itemCount: categoryMeals.length,
         itemBuilder: (context, index) => MealItem(meal:categoryMeals[index]))
+
         : Container( // Caso esteja vazio por conta dos filtros
           margin: const EdgeInsets.fromLTRB(15, 50, 15, 20),
           child: Card(

@@ -22,7 +22,7 @@ class _TabScreenState extends State<TabScreen> {
   int _selectedScreenIndex = 0;
   late List<Map<String, Object>> _screens;
 
-  // Dados que são iniciados junto com o estado do Widget, telas com os seuys respectivos nomes
+  // Dados que são iniciados junto com o estado do Widget, telas com os seus respectivos nomes
   @override
   void initState() {
     super.initState();

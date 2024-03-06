@@ -55,6 +55,7 @@ import '../models/category.dart';
     color: Colors.teal,
   ),
 ];
+
 const dummyMeals = [
   Meal(
     id: 'm1',

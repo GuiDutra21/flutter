@@ -3,11 +3,16 @@ import '../models/meal.dart';
 
 // Classe que representa os detalhes de uma determianda refeição
 class MealDetailScreen extends StatelessWidget
-{
+{ 
+  // Atribbutos
   final void Function(Meal) _toggleFavorite;
   final bool Function(Meal) _isFavorite;
+
+  // Construtor
   const MealDetailScreen(this._toggleFavorite,this._isFavorite, {super.key});
 
+  // Função que cria os títulos 'ingredientes' e 'passos'
+  // Só para não ficar repetindo código
   Widget _createTitle(BuildContext context, String title)
   {
     return Container(
@@ -17,7 +22,8 @@ class MealDetailScreen extends StatelessWidget
       child: Text(title, style: Theme.of(context).textTheme.titleLarge),
     );
   }
-
+  
+  // Função que cria os retângulos dos ingredientes e passos
   Widget _createContainer({required Widget child, required double containerHeight})
   {
     return  Container(
@@ -60,8 +66,8 @@ class MealDetailScreen extends StatelessWidget
                   child: Image.network(
                     meal.imageUrl,
                     loadingBuilder: (context, child, progress) {
-                    return progress == null ? child: Center(
-                      child: CircularProgressIndicator(
+                    return progress == null ? child: const Center(
+                      child: LinearProgressIndicator(
                         backgroundColor: Colors.amber,
                         
                       ),

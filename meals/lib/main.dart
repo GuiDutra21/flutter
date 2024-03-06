@@ -20,6 +20,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp>{ 
 
+  // Principais variáveis do aplicativo
   Setting settings = Setting();
   List <Meal> _avaibleMeals = dummyMeals;
   List<Meal> _favorites = [];

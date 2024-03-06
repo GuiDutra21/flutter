@@ -3,10 +3,12 @@ import 'package:meals/utils/app_routes.dart';
 import '../models/category.dart';
 
 // Classe que representa cada retângulo da tela principal
-
 class CategoryItem extends StatelessWidget{
+
+  // Atributo
   final Category category;
 
+  //Construtor
   const CategoryItem(this.category, {super.key});
 
   // Função que é chamada quando clicamos em uma categoria

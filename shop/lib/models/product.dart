@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 
-class Product {
+// classe modelo de produtos
+class Product with ChangeNotifier{
 
   // Atriibutos
   final String id; 
@@ -20,8 +22,9 @@ class Product {
   });
 
   // Método
-  void _toggleFavorte()
+  void toggleFavorite()
   {
      isFavorite = !isFavorite;
+     notifyListeners();
   }
 }

@@ -7,22 +7,29 @@ import '../models/product_list.dart';
 // classe referente ao layout em matriz
 class ProductGrid extends StatelessWidget
 { 
+
+  // Atributo 
+  final bool showFavoriteOnly;
+
   // Construtor
-  const ProductGrid({super.key});
+  const ProductGrid({super.key, required this.showFavoriteOnly});
 
   @override
   Widget build(BuildContext context)
   {
     // primeiro pega a classe 'criada' pelo provider
     final provider = Provider.of<ProductList>(context);
+
     // pega a lista dentro dessa classe
-    final loadedProducts = provider.items;
+    final loadedProducts = showFavoriteOnly ?  provider.favoriteItems : provider.items;
     
     // Widget que gera o layout de matriz
     return GridView.builder(
         padding: const EdgeInsets.all(15.0),
-        itemBuilder: (context, index) => ChangeNotifierProvider(
-          create: (_) => loadedProducts[index], // elmento 'criado' pelo provider
+        itemBuilder: (context, index) => ChangeNotifierProvider.value(
+          // apenas acessando o elemento, não criando, pois já tinha sido criado anteriormente
+          // pelo provider mais acima
+          value: loadedProducts[index], 
           child: const ProductItem(),
           ),
         itemCount: loadedProducts.length,

@@ -7,10 +7,14 @@ class ProductList with ChangeNotifier
 { 
   // atributo
   final List<Product> _items = dummyProducts;
+
   
-  // Método get que retorna uma cópia do atributo _items,
+  // retorna uma cópia do atributo _items,
   // sendo que outras classes não conseguem alterar a lista origial
   List<Product> get items => [..._items];
+
+  // Para retornar apenas a lista com os favoritos
+  List<Product> get favoriteItems => _items.where((product) => product.isFavorite).toList();
   
   void addProduct (Product product)
   {

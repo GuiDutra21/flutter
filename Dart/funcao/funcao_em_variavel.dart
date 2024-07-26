@@ -1,6 +1,6 @@
-import 'dart:io';
+// import 'dart:io';
 
-saudarPessoa({String? nome, int? idade}) // parametros nomeados
+saudarPessoa({String? nome, int? idade}) // Parametros nomeados
 {
   print("Ola $nome, vc nao parece ter $idade anos.");
 }
@@ -13,14 +13,14 @@ int somaFn(int a, int b)
 main()
 {
   saudarPessoa(nome:"Joao",idade: 33);
-  saudarPessoa(idade: 32, nome:"Maria"); // a ordem ja nao vai importar, mas é preciso escrever o nome das variaveis
+  saudarPessoa(idade: 32, nome:"Maria"); // A ordem ja nao vai importar, mas é preciso escrever o nome das variaveis
 
   // Função em variável
   // tipo nome = valor;
-  int Function(int, int) soma1 = somaFn; // variavel soma1 recebe a funcao somaFN
+  int Function(int, int) soma1 = somaFn; // Variavel soma1 recebe a funcao somaFN
   print(soma1(20, 313));
   
-  int Function(int, int) soma2 = (int x, y) // funcao anonima
+  int Function(int, int) soma2 = (int x, y) // Funcao anonima
   {
     return x + y;
   };
@@ -32,7 +32,7 @@ main()
   };
   print(str( "Hello", "world"));
 
-  var soma3 = (x,y) // podemos usar o var
+  var soma3 = (x,y) // Podemos usar o var
   {
     return x + y;
   };
@@ -43,7 +43,7 @@ main()
     a + b
   }; // Função arrow - mas também é um Set
 
-  var subtracao = (int a, int b) => a - b; // sem as chaves no retorno não é considerado do tipo Set
+  var subtracao = (int a, int b) => a - b; // Sem as chaves no retorno não é considerado do tipo Set
   int Function(int, int) multiplicacao = (int a, int b) => a * b;
   var divisao = (int a, int b) => a / b;
 

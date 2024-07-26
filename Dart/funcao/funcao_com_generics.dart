@@ -20,7 +20,7 @@ main()
   int resultado = segundoElementoV2<int>(lista)!;
   print(resultado);
 
-  resultado = segundoElementoV2(lista)!; // posso omitir ou nao o tipo
+  resultado = segundoElementoV2(lista)!; // Posso omitir ou nao o tipo
   print(resultado);
 
   print(segundoElementoV1(lista2));

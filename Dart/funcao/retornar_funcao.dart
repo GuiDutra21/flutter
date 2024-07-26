@@ -1,6 +1,6 @@
 int Function(int) somaParcial (int a)
 {
-  int c = 0;
+  int c = 9;
 
   return (int b)
   {

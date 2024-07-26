@@ -1,19 +1,21 @@
 class Carro
-{
+{ 
+  // Atributos
   late int velocidadeMaxima = 0;
-  int _velocidadeAtual = 0;
+  int _velocidadeAtual = 0; // Esse underline torna a variavel privada
 
+  // Construtores
   Carro([velocidadeMaxima = 200])
   {
     this.velocidadeMaxima = velocidadeMaxima;
   }
 
-  int get velocidadeAtual // método que permite a utilização da variável, mas não alteração
+  int get velocidadeAtual // Método que permite a utilização da variável, mas não alteração
   {
     return this._velocidadeAtual;
   }
 
-  void set velocidadeAtual(int novaVelocidade)// método que permite a alteração
+  void set velocidadeAtual(int novaVelocidade)// Método que permite a alteração
   {
     bool deltaValido = (_velocidadeAtual - novaVelocidade).abs() <= 5;
     if(deltaValido)

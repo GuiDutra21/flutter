@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 import 'dart:math';
 
 main()
@@ -74,23 +74,44 @@ main()
     'Joao' : 8.9,
   };   
 
-  for(String nome in Notas.keys) // somente as entradas
+  for(String nome in Notas.keys) // Somente as chaves
   {
     print("O nome do auluno eh : $nome");
   }
 
-  for(double valores in Notas.values) // somente os valores
+  for(double valores in Notas.values) // Somente os valores
   {
     print("Os valores sao : $valores");
   }
 
-  for(String name in Notas.keys) // printa os dois
+  for(String name in Notas.keys) // Printa os dois
   {
     print("O nome do aluno eh : $name e a nota eh : ${Notas[name]}"); 
   }
 
-  for( var registro in Notas.entries) // outra maneira de printar as chaves e os valores do Map
+  for(var registro in Notas.entries) // Outra maneira de printar as chaves e os valores do Map
   {
     print("O ${registro.key} tem nota ${registro.value} ");
   }
+
+   // Continue e break
+
+    print("Primeiro for :");
+    for(int i = 0; i < 10; i ++)
+    { 
+      if(i == 5)
+        break;//sai direto do for sem terminar de executar mais nada
+      print(i);
+    }
+
+    print("Segundo for : ");
+
+    for(int j = 0; j < 10; j++)
+    {
+      if(j % 2 == 0)
+      continue;
+      // Quando o numero for par vai pular direto para o proximo incremento sem passar pelo print, ou seja nao imprimir os numeros pares
+
+      print(j);
+    }
 }

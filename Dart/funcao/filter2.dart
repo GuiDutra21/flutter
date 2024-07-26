@@ -8,7 +8,7 @@ List<E> filtrar<E>(List<E> lista, bool Function(E) fn)
   for(E elemento in lista)
   {
     if(fn(elemento))// se for verdadeiro adiciona
-    listaFiltrada.add(elemento);
+      listaFiltrada.add(elemento);
   }
   return listaFiltrada;
 }
@@ -22,7 +22,7 @@ main()
   var notasBoas = filtrar<double>(notas, notasBoasFn);
   print(notasBoas);
 
-  List<String> nomes = ['Ana', 'Marcelo', 'Joao', 'kamila', 'guilherme'];
+  List<String> nomes = ['Ana', 'Marcelo', 'Joao', 'kamila', 'Guilherme'];
   bool Function(String) nomesGrandesFn = (String nome) => nome.length >= 5;
 
   print(filtrar(nomes, nomesGrandesFn));

@@ -33,10 +33,12 @@ main ()
     */
     print(5 & 4);
 
+    print("\n");
+    
     int teste = 4;
-
-    //print(++teste);
+    print(++teste);
     print(teste++);
+    print(teste);
 
     print("Esta chovendo? (S/N) \n");
     bool estaChovendo = stdin.readLineSync()! == 'S';
@@ -44,7 +46,7 @@ main ()
     print("EstaFrio? (S/N) \n");
     bool estaFrio = stdin.readLineSync()! == 'S';
 
-    //Operador ternario
+    // Operador ternario
     String resultado = estaChovendo || estaFrio ? "Ficar em casa" : "Sair de casa";
     print(resultado);
 

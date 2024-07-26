@@ -1,10 +1,11 @@
 class Data 
-{
+{ 
+  // Atributos
   int? dia;
   int? mes;
   int? ano;
 
-  //Somente um construtor eh permitido
+  //  Apenas um construtor eh permitido com o mesmo nome
   //  Data(int? diaRecebido, int? mesRecebido, int? anoRecebido)
   //  {
   //  dia = diaRecebido;
@@ -19,9 +20,11 @@ class Data
   //   this.ano = ano;
   // }
 
+  // Construtor
   Data(this.dia, this.mes, this.ano);
 
-  //@override
+  // Metodo
+  @override
   String toString()
   {
     return "$dia/$mes/$ano";

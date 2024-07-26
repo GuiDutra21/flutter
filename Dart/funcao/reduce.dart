@@ -1,4 +1,5 @@
-
+// Essa funcoes mostram como funciona internamente a funcao 'reduce'
+// Existe um acumulador e o elemento que sera iterado
 double somar (double acumulador, double elemento)
 {
   return acumulador + elemento;
@@ -15,7 +16,7 @@ main()
   var resultado = notas.reduce(somar);
   print(resultado);
 
-  var nomes = ['Ana', 'Bia', 'Carlos', 'Daniel', 'edna', 'Fatima'];
+  var nomes = ['Ana', 'Bia', 'Carlos', 'Daniel', 'Edna', 'Fatima'];
   var cat = nomes.reduce(concatenacao);
   print(cat);
 }

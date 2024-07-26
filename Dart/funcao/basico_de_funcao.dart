@@ -7,13 +7,13 @@ import 'dart:math';
     return a + b;
   }
 
-  String juntar(dynamic a, b)//o b tambem eh do tipo dinamico
+  String juntar(dynamic a, b) // O b tambem eh do tipo dinamico
   {
     print(a.toString() + b.toString());
     return a.toString() + b.toString();
   }
 
-  dynamic juntar3( dynamic a, b, c, d)
+  dynamic juntar4( dynamic a, b, c, d)
   {
     return a.toString() + b.toString() + c.toString() + d.toString();
   }
@@ -37,7 +37,7 @@ main()
   int resultado = soma(a,b);
 
   print(resultado);
-  //ou entao pode ser chamada direta do print
+  // Ou entao pode ser chamada direta do print
   print(soma(a, b));
 
   String resultado1 = juntar(10, 3);
@@ -46,7 +46,7 @@ main()
 
   print(resultado2.toUpperCase());
 
-  print(juntar3("oi ", 20, " C", " Duzir"));
+  print(juntar4("oi ", 20, " C", " Duzir"));
 
   print(numeroAleatorio(5));
 

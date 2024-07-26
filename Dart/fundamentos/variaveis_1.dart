@@ -9,6 +9,6 @@ main ()
     print(a * b);
     print(c);
     print( texto + ( b + c).toString() );
-    print(texto.runtimeType); //printa o tipo da variavel
-    print(c is double);//printa true ou valse 
+    print(texto.runtimeType); // printa o tipo da variavel
+    print(c is double); // printa true ou valse 
 }

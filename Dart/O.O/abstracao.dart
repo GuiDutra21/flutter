@@ -1,14 +1,19 @@
-
-// O abstract nao permite a utilizacao da classe personagem na main, vai servir apenas como um escopo para as demais classes
+// O abstract nao permite a utilizacao da classe personagem na main
+// Ou seja, nao podemos instancia-la
+// vai servir apenas como um escopo para as demais classes
 import 'dart:math';
 
 abstract class Personagem 
 {
+  // Atributos
   int? posicaoX;
   int? posicaoY;
   String? nome;
+
+  // Construtor
   Personagem({this.nome,this.posicaoX,this.posicaoY});
 
+  // Metodo
   void informacao()
   {
     print("O personagem $nome esta nas seguintes posições $posicaoX e $posicaoY");
@@ -17,9 +22,13 @@ abstract class Personagem
 
 class Heroi extends Personagem
 {
+  // Atributo
   int? bondade;
+
+  // Construtor
   Heroi({nome,posicaoX,posicaoY,this.bondade}) : super(nome: nome, posicaoX: posicaoX, posicaoY: posicaoY);
 
+  // Metodo
   @override
   void informacao()
   {
@@ -28,10 +37,14 @@ class Heroi extends Personagem
 }
 
 class Vilao extends Personagem
-{
+{ 
+  // Atributo
   int? maldade;
+
+  // Construtor
   Vilao({nome,posicaoX, posicaoY, this.maldade}) : super(nome: nome, posicaoX: posicaoX, posicaoY: posicaoY);
 
+  // Metodo
   @override
   void informacao()
   {

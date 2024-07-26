@@ -22,14 +22,14 @@ class _MyAppState extends State<MyApp>{
 
   // Principais variáveis do aplicativo
   Setting settings = Setting();
-  List <Meal> _avaibleMeals = dummyMeals;
+  List <Meal> _availableMeals = dummyMeals;
   List<Meal> _favorites = [];
 
   void _filterMeals(Setting settings){
     setState(() {
       this.settings = settings;
 
-      _avaibleMeals = dummyMeals.where((meal) {
+      _availableMeals = dummyMeals.where((meal) {
         final filterGluten = settings.isGlutenFree && !meal.isGlutenFree;
         final filterLactose= settings.isLactoseFree && !meal.isLactoseFree;
         final filterVegan = settings.isVegan && !meal.isVegan;
@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp>{
       // Também poderia ter usado o atributo initialRoute:
       routes: {
         AppRoutes.home:(context) =>  TabScreen(_favorites), // Chama a tela principal
-        AppRoutes.categories_meals: (context) => CategoriesMealsScreen(_avaibleMeals),
+        AppRoutes.categories_meals: (context) => CategoriesMealsScreen(_availableMeals),
         AppRoutes.meals_details: (context) => MealDetailScreen(_toggleFavorite, _isFavorite),
         AppRoutes.settings: (context) =>  SettingsScreen(settings, _filterMeals),
       }

@@ -1,2 +1,2 @@
-# flutter
-Este é um repositório destinado a estudos em  flutter
+# Flutter
+Este é um repositório destinado a estudos em  Flutter

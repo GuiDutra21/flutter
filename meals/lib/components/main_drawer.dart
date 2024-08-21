@@ -4,6 +4,8 @@ import 'package:meals/utils/app_routes.dart';
 // Classe que representa o drawer 
 // (parte que aparece na lateral quando selecionamos o ícone com 3 linhas )
 class MainDrawer extends StatelessWidget {
+
+  // Construtor
   const MainDrawer({super.key});
 
   // Função para gerar os elementos do drawer
@@ -27,7 +29,9 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData tema = Theme.of(context);// Só para não ficar chamando várias vezes
+
+    // Só para não ficar chamando várias vezes
+    ThemeData tema = Theme.of(context); 
 
     return Drawer(
       backgroundColor: tema.colorScheme.background,

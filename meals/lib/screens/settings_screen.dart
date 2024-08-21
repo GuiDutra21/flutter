@@ -28,15 +28,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   // Função que cria os switches
-  Widget _createSwitch(
-  {required String title, required String subtitle, required bool value,
-  required void Function(bool) onChanged}) {
-
+  Widget _createSwitch({required String title, required String subtitle, required bool value,
+  required void Function(bool) onChanged}) 
+  {
   return Card(
     color: const Color.fromARGB(255, 255, 245, 157),
     margin: const EdgeInsets.fromLTRB(20, 7, 20, 7),
     child: SwitchListTile.adaptive(
-      inactiveThumbColor: Colors.amber,
+      inactiveThumbColor: Colors.black,
       inactiveTrackColor: Colors.white,
       title: Text(title),
       subtitle: Text(subtitle),

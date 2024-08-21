@@ -59,9 +59,9 @@ class _MyAppState extends State<MyApp>{
 
       theme: ThemeData(
         fontFamily: 'Raleway', // Não sei se está fazendo alguma diferença
-
+        
         colorScheme:  ColorScheme.fromSwatch(
-            primarySwatch: Colors.pink, // Não sei se está fazendo alguma diferença
+            primarySwatch: Colors.pink, 
             backgroundColor: const Color.fromARGB(255, 240, 238, 183),
         ),
 
@@ -87,7 +87,7 @@ class _MyAppState extends State<MyApp>{
       // ou seja a tela padrão/princial do aplicativo
       // Também poderia ter usado o atributo initialRoute:
       routes: {
-        AppRoutes.home:(context) =>  TabScreen(_favorites), // Chama a tela principal
+        AppRoutes.home: (context) => TabScreen(_favorites), // Chama a tela principal
         AppRoutes.categories_meals: (context) => CategoriesMealsScreen(_availableMeals),
         AppRoutes.meals_details: (context) => MealDetailScreen(_toggleFavorite, _isFavorite),
         AppRoutes.settings: (context) =>  SettingsScreen(settings, _filterMeals),

@@ -16,6 +16,7 @@ class CategoriesMealsScreen extends StatelessWidget
   Widget build (BuildContext context)
   {
     // Maneira de obter a categoria sem precisar passar via construtor
+    // Recebe os argumentos qunado a tela é passada como rota
     final category = ModalRoute.of(context)?.settings.arguments as Category;
 
     // Pega apenas as refeições correspponde a categoria selecionada
@@ -42,8 +43,8 @@ class CategoriesMealsScreen extends StatelessWidget
             color:  Colors.amber,
             child: ListTile(
               leading: const Icon(Icons.warning, color: Colors.black ,size: 30),
-              title: Text("Dado os filtros selecionados, nenhuma comida dessa categoria está disponível !",
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.black),),
+              title: Text("Por conta dos filtros selecionados, nenhuma comida dessa categoria está disponível !",
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.black),textAlign: TextAlign.center,),
             ),
           ),
           )

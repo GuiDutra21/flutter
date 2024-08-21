@@ -5,6 +5,7 @@ import '../components/category_item.dart';
 // Classe que representa a tela inicial com as opções
 class CategoriesScreens extends StatelessWidget
 {
+  // Construtor
   const CategoriesScreens({super.key});
 
   @override

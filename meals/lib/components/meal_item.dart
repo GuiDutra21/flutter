@@ -53,7 +53,7 @@ class _MealItemState extends State<MealItem> {
                 child: Image.network(
                   widget.meal.imageUrl,
                   loadingBuilder: (context, child, progress) {
-                    return progress == null ? child: const Center(
+                    return progress == null ? child : const Center(
                       child: LinearProgressIndicator(
                         backgroundColor: Colors.amber,
                       ),
@@ -66,7 +66,7 @@ class _MealItemState extends State<MealItem> {
               ),
 
               Positioned( // Para ter um posicionamento absoluto em relação a imagem
-                right: 10,
+                right: 0,
                 bottom: 15,
                 child: Container( // Parte preta que vem atrás do nome
                   alignment: Alignment.center,
@@ -108,7 +108,7 @@ class _MealItemState extends State<MealItem> {
 
                 Row( // Dificuldade
                   children: [
-                    const Icon(Icons.work),
+                    const Icon(Icons.construction_outlined),
                     const SizedBox(width: 6), // Só para espaçar o ícone do textos
                     Text(widget.meal.complexityText)
                   ]

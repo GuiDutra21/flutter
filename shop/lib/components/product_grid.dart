@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'product_item.dart';
 import '../models/product_list.dart';
 
-// classe referente ao layout em matriz
+// Classe referente ao layout em matriz
 class ProductGrid extends StatelessWidget
 { 
 
@@ -17,10 +17,10 @@ class ProductGrid extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
-    // primeiro pega a classe 'criada' pelo provider
+    // Primeiro pega a classe 'criada' pelo provider
     final provider = Provider.of<ProductList>(context);
 
-    // pega a lista dentro dessa classe
+    // Pega a lista dentro dessa classe
     final loadedProducts = showFavoriteOnly ?  provider.favoriteItems : provider.items;
     
     // Widget que gera o layout de matriz

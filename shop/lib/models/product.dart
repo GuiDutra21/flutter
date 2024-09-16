@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// classe modelo de produtos
+// Classe modelo de produtos
 class Product with ChangeNotifier{
 
   // Atriibutos

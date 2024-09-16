@@ -7,6 +7,7 @@ import '../models/product.dart';
 
 // Classe que representa o retângulo de cada produto
 class ProductItem extends StatelessWidget {
+  
   // Construtor
   const ProductItem({super.key});
 

@@ -4,10 +4,12 @@ import 'package:provider/provider.dart';
 import '../models/cart.dart';
 
 class CartScreen extends StatelessWidget {
-  CartScreen({super.key});
+ 
+ const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    
     final Cart cart = Provider.of(context);
 
     return Scaffold(

@@ -13,6 +13,7 @@ enum FilterOptions {
 
 // Classe que representa a tela pricinpal
 class ProductsOverviewScreen extends StatefulWidget {
+
   // Contrutor
   const ProductsOverviewScreen({super.key});
 
@@ -32,17 +33,20 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           style: TextStyle(color: Colors.black),
         ),
         actions: [
+
           // ícone no appBar que gera um pop up menu responsável por alternar entre os favoritos ou todos
           PopupMenuButton(
             icon: const Icon(Icons.filter_alt_sharp),
             elevation: 30,
             color: Colors.white,
             itemBuilder: (_) => [
+
               // Opções do pop up menu
               const PopupMenuItem(
                 value: FilterOptions.favorites,
                 child: Text("Apenas favoritos"),
               ),
+
               const PopupMenuItem(
                 value: FilterOptions.all,
                 child: Text("Todos"),
@@ -60,6 +64,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               });
             },
           ),
+          
           // O consumer permite que as alterações feitas no cart sejam refletidas na interface gráfica,
           // mas somente nessa parte
           Consumer<Cart>(
@@ -77,9 +82,11 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                   ))
         ],
       ),
+
+      // Componente referente ao layout em matriz
       body: ProductGrid(
         showFavoriteOnly: _showFavoriteOnly,
-      ), // Componente referente ao layout em matriz
+      ), 
     );
   }
 }

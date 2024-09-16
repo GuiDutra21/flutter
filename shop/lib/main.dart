@@ -35,25 +35,30 @@ class MyApp extends StatelessWidget {
       ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false, // Para remover o banner de DEBUG
+
           theme: ThemeData(
-            appBarTheme: const AppBarTheme(
+            appBarTheme:  AppBarTheme(
               centerTitle: true,
+              backgroundColor: Colors.blue[300],
             ),
+
             colorScheme: ColorScheme.fromSwatch(
               primarySwatch: Colors.purple,
-              cardColor: const Color.fromARGB(255, 23, 206, 32),
-              backgroundColor: const Color.fromARGB(255, 19,18,64),
+              cardColor: Colors.yellow[100],
+              backgroundColor:  Colors.orange,
               brightness: Brightness.light,
             ),
+
             focusColor: Colors.amber,
             fontFamily: 'Lato',
             useMaterial3: true,
           ),
+
           home: const ProductsOverviewScreen(),
         
           routes: {
           AppRoutes.productDetail : (context) => const ProductDetailScreen(),
-          AppRoutes.cart : (context) =>  CartScreen(),
+          AppRoutes.cart : (context) =>  const CartScreen(),
           }
         ),
     );

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import '/models/cart_item.dart';
 import 'product.dart';
 
+// Classe 'criada' pelo ChangeNotifyProvider 
 class Cart with ChangeNotifier {
+
   Map<String, CartItem> _items = {};
 
   // retorna apenas uma cópia dos dados

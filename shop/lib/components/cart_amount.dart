@@ -1,24 +1,27 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CartAmount extends StatelessWidget
-{ 
-  late Widget child;
-  late String value;
-  Color? color;
+// Classe que representa o ícone do carrinho e o seu contador
+class CartAmount extends StatelessWidget {
+  // Atributos
+  final Widget child;
+  final String value;
+  final Color? color;
 
-  CartAmount({super.key, required this.child, required this.value, this.color});
+  // Construtor
+  const CartAmount(
+      {super.key, required this.child, required this.value, this.color});
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
       children: [
-        child,
+
+        child, // Esse atributo que é ferente ao ícone do carrinho
+
         Positioned(
-          right: 6,
-          top: 2,
+          right: 4,
+          top: 1,
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -29,13 +32,16 @@ class CartAmount extends StatelessWidget
               minWidth: 16,
             ),
             alignment: Alignment.center,
-            padding: const  EdgeInsets.all(2),
-            child: Text(value, style: const TextStyle(fontSize: 10, color: Colors.black),),
+            padding: const EdgeInsets.all(2),
+            child: Text(
+              value,
+              style: const TextStyle(fontSize: 10, color: Colors.black),
+            ),
           ),
-        )
+        ),
         // Container(
         //   decoration: BoxDecoration(
-        //     border: BorderRadius.circular()
+        //     borderRadius: BorderRadius.circular(10)
         //   ),
         // )
       ],

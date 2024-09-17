@@ -39,10 +39,12 @@ class ProductItem extends StatelessWidget {
         ),
 
         
-        // Imagem com a bolinha de carregamento
+        // Imagem 
         child: Image.network(
           product.imageUrl,
           fit: BoxFit.cover,
+          
+          // Bolinha de carregamento
           loadingBuilder: (context, child, loadingProgress)
           {
             return loadingProgress  == null ? 
@@ -59,19 +61,3 @@ class ProductItem extends StatelessWidget {
     );
   }
 }
-
-          // child: Image.network(
-          //   product.imageUrl,
-          //   fit: BoxFit.cover,
-          //   loadingBuilder: (context, child, loadingProgress) {
-          //     return loadingProgress == null
-          //         ? child
-          //         : const Center(
-          //             child: CircularProgressIndicator(
-          //               color: Colors.green,
-          //               backgroundColor: Colors.black,
-          //               strokeWidth: 7,
-          //             ),
-          //           );
-          //   },
-          // ),

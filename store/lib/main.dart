@@ -15,7 +15,23 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+
+        // Usando o ColorScheme para definir as cores principais
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          primary: Colors.blue,   // Cor primária
+          secondary: Colors.orange, // Cor de destaque
+          brightness: Brightness.light,
+
+        ),
+        
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.blue,
+          centerTitle: true,
+        ),
+
+        scaffoldBackgroundColor: Colors.yellow[50],
+        fontFamily: 'Lato',
         useMaterial3: true,
       ),
       home: ProductsOverviewScreen(),

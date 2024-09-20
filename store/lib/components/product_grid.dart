@@ -7,11 +7,13 @@ import 'product_item.dart';
 
 // Classe que representa a matriz de componentes
 class ProductGrid extends StatelessWidget {
+
   // Construtor
   const ProductGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     // Acessa o provider
     final ProductList provider = Provider.of<ProductList>(context);
 
@@ -20,17 +22,18 @@ class ProductGrid extends StatelessWidget {
 
     // Widget responsável por criar a lyout em matriz
     return GridView.builder(
-      padding: const EdgeInsets.all(10),
-      itemCount: productList.length,
-      itemBuilder: (context, index) => ChangeNotifierProvider(
-          create: (_) => productList[index], // Cria o ChangeNotifier para a classe que contém o dado (quase isso nessa parte)
-          child: const ProductItem()),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 1,
-        crossAxisSpacing: 15,
-        mainAxisSpacing: 15,
-      ),
-    );
+        padding: const EdgeInsets.all(10),
+        itemCount: productList.length,
+        itemBuilder: (context, index) => ChangeNotifierProvider.value(
+            value: productList[index], 
+            // está reusando o ChangeNotifier, nesse caso ele está meio que instanciando cada produto da lista de produtos, sendo que cada um deles será usado no ProductItem
+              child:  const ProductItem()),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 1,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 15,
+        ),
+      );
   }
 }

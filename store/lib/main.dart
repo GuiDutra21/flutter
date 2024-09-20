@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store/providers/counter_provider.dart';
 import 'package:store/providers/product_list.dart';
-import 'package:store/screens/couter_screen.dart';
 import 'package:store/screens/product_detail_screen.dart';
 import 'package:store/screens/products_overview_screen.dart';
 import 'package:store/utils/app_routes.dart';
@@ -17,6 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider(
       create: (_) => ProductList(), // Cria o ChangeNotifier para a classe que contém o dado
       child: MaterialApp(
@@ -49,7 +48,7 @@ class MyApp extends StatelessWidget {
         {
           AppRoutes.productDetail: (context) => const ProductDetailScreen(),
         },
-        home: ProductsOverviewScreen(),
+        home: const ProductsOverviewScreen(),
       ),
     );
   }

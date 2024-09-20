@@ -10,15 +10,14 @@ class ProductsOverviewScreen extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Loja"),
+        title:  const Text("Loja"),
       ),
 
       // Chama o componente da matriz dos produtos
-      body: const ProductGrid()
+      body:  const ProductGrid()
     );
   }
 

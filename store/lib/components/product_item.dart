@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:store/models/product.dart';
 import 'package:store/utils/app_routes.dart';
 
+import '../models/cart.dart';
+
 // Classe que representa cada quadrado com a imagem
 class ProductItem extends StatelessWidget {
 
@@ -19,6 +21,7 @@ class ProductItem extends StatelessWidget {
       // obs: por padrão tem o valor de true
       listen: false,
     );
+    final cart = Provider.of<Cart>(context, listen: false);
 
     return ClipRRect(
       // Para arredondar as bordas
@@ -60,7 +63,9 @@ class ProductItem extends StatelessWidget {
 
           // Ícone da direita
           trailing: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                cart.addItem(product);
+              },
               icon: const Icon(
                 Icons.shopping_cart,
                 color: Colors.amber,

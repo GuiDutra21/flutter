@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:store/components/app_drawer.dart';
 import 'package:store/components/product_grid.dart';
 import 'package:store/components/shopping_cart.dart';
-import 'package:store/providers/product_list.dart';
 import 'package:store/utils/app_routes.dart';
 
 import '../models/cart.dart';
@@ -72,6 +72,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         // Chama o componente da matriz dos produtos
         body: ProductGrid(
           onlyFavorite: _onlyFavorite,
-        ));
+        ),
+        drawer: AppDrawer(),);
   }
 }

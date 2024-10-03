@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:store/models/product.dart';
 import 'package:store/providers/counter_provider.dart';
 
 // Classe teste para aprender o uso do inheredtWidget e do provider

@@ -13,6 +13,7 @@ class Cart with ChangeNotifier {
 
   int get itemsLength => _items.length;
 
+  // Retorna o valor total do carrinho
   double get totalAmount {
     double total = 0.0;
     _items.values.forEach((item) {
@@ -38,7 +39,7 @@ class Cart with ChangeNotifier {
       _items.putIfAbsent(
           product.id,
           () => CartItem(
-                id: Random().nextDouble().toString(),
+                id: (Random().nextInt(10000)).toString(),
                 productId: product.id,
                 name: product.name,
                 price: product.price,

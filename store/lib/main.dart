@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/models/cart.dart';
+import 'package:store/models/order_list.dart';
 import 'package:store/providers/product_list.dart';
 import 'package:store/screens/cart_screen.dart';
+import 'package:store/screens/order_screen.dart';
 import 'package:store/screens/product_detail_screen.dart';
 import 'package:store/screens/products_overview_screen.dart';
 import 'package:store/utils/app_routes.dart';
@@ -25,7 +27,10 @@ class MyApp extends StatelessWidget {
             create: (_) => ProductList(), // Cria o ChangeNotifier para a classe que contém o dado
           ),
           ChangeNotifierProvider(
-            create: (_) => Cart(), // Cria o ChangeNotifier para a classe que contém o dado
+            create: (_) => Cart(), 
+          ),
+          ChangeNotifierProvider(
+            create: (_) => OrderList(), 
           ),
         ],
         child: MaterialApp(
@@ -55,11 +60,13 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           routes: 
-          {
+          { 
+            AppRoutes.home: (context) => const  ProductsOverviewScreen(),
             AppRoutes.productDetail: (context) => const ProductDetailScreen(),
             AppRoutes.cart: (context) => const CartScreen(),
+            AppRoutes.orders: (context) =>  const OrderScreen(),
           },
-          home: const ProductsOverviewScreen(),
+          // home: const  ProductsOverviewScreen(),
         ),
     );
   }

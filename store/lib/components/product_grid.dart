@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../models/product.dart';
 import '../providers/product_list.dart';
-import 'product_item.dart';
+import 'product_grid_item.dart';
 
 // Classe que representa a matriz de componentes
 class ProductGrid extends StatelessWidget {
@@ -31,7 +31,7 @@ class ProductGrid extends StatelessWidget {
         itemBuilder: (context, index) => ChangeNotifierProvider.value(
             value: productList[index], 
             // está reusando o ChangeNotifier, nesse caso ele está meio que instanciando cada produto da lista de produtos, sendo que cada um deles será usado no ProductItem
-              child:  ProductItem()), // OBS: não coloque o const aqui, se não vai dar erro na hora de selecionar os favoritos
+              child:  ProductGridItem()), // OBS: não coloque o const aqui, se não vai dar erro na hora de selecionar os favoritos
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 1,

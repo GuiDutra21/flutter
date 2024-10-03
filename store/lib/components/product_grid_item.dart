@@ -6,9 +6,9 @@ import 'package:store/utils/app_routes.dart';
 import '../models/cart.dart';
 
 // Classe que representa cada quadrado com a imagem
-class ProductItem extends StatelessWidget {
+class ProductGridItem extends StatelessWidget {
   // Construtor
-  const ProductItem({super.key});
+  const ProductGridItem({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +45,12 @@ class ProductItem extends StatelessWidget {
                         ? const Icon(
                             Icons.favorite,
                             color: Colors.red,
-                             size: 25,
+                            size: 25,
                           )
                         : const Icon(
                             Icons.favorite_border,
                             color: Colors.red,
-                             size: 25,
+                            size: 25,
                           )),
           ),
 
@@ -63,14 +63,30 @@ class ProductItem extends StatelessWidget {
 
           // Ícone da direita
           trailing: IconButton(
-            onPressed: () {
-              cart.addItem(product);
-            },
             icon: const Icon(
-              Icons.shopping_cart,
+              Icons.add_shopping_cart_outlined,
               color: Colors.amber,
               size: 25,
             ),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                backgroundColor: Colors.green[500],
+                content: const Text(
+                  "Adicionado com sucesso !",
+                  style: TextStyle(fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+                duration: const Duration(seconds: 2),
+                action: SnackBarAction(
+                    backgroundColor: Colors.red[700],
+                    textColor: Colors.white,
+                    label: "DESFAZER ?",
+                    onPressed: () {
+                      cart.removeSingleItem(product.id);
+                    }),
+              ));
+              cart.addItem(product);
+            },
           ),
         ),
 

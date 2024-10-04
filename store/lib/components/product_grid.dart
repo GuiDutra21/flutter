@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/product.dart';
-import '../providers/product_list.dart';
+import '../models/product_list.dart';
 import 'product_grid_item.dart';
 
 // Classe que representa a matriz de componentes

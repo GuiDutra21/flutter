@@ -18,6 +18,8 @@ class CartItemWidget extends StatelessWidget {
       // Widget que permite a exclusão do item quando arrastamos para o lado
       key: ValueKey(cartItem.id),
       direction: DismissDirection.endToStart,
+
+      // Estilização do Dismissible
       background: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), color: Colors.red),
@@ -30,6 +32,29 @@ class CartItemWidget extends StatelessWidget {
           size: 40,
         ),
       ),
+
+      // Função para confirmar a remoção do item
+      // Exige como retorno um Future
+      confirmDismiss: (_) {
+        return showDialog<bool>(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: const Text("Tem Certeza ?"),
+                  content: const Text("Quer remover o item do carrinho ?"),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(false); // Para fechar o AlertDialog e retorna false
+                        },
+                        child: const Text("Não")),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true); // Para fechar o AlertDialog e retorna true
+                        },
+                        child: const Text("Sim")),
+                  ],
+                ));
+      },
       onDismissed: (_) {
         Provider.of<Cart>(context, listen: false)
             .removeItem(cartItem.productId);

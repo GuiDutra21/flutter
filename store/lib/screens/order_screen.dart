@@ -9,16 +9,26 @@ class OrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final orderList = Provider.of<OrderList>(context); // Provider para obter a lista de pedidos
+    final orderList = Provider.of<OrderList>(
+        context); // Provider para obter a lista de pedidos
     return Scaffold(
       appBar: AppBar(
         title: const Text("Meus pedidos"),
       ),
       drawer: const AppDrawer(),
-      body: ListView.builder(
-          itemCount: orderList.items.length,
-          itemBuilder: (context, index) =>
-              OrderWidget(order: orderList.items[index])),
+      body: orderList.items.isNotEmpty
+          ? ListView.builder(
+              itemCount: orderList.items.length,
+              itemBuilder: (context, index) =>
+                  OrderWidget(order: orderList.items[index]))
+
+          // Se a lista de pedidos estiver vazia mostra a mensagem debaixo
+          : const Center(
+              child: Text(
+              "Nenhuma compra foi realizada ainda !",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 30),
+            )),
     );
   }
 }

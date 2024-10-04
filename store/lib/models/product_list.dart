@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:store/data/dummy_data.dart';
 
-import '../models/product.dart';
+import 'product.dart';
 
 // Classe 'criada' pelo ChangeNotifyProvider e que contém a lista de produtos
 class ProductList with ChangeNotifier
@@ -16,6 +16,8 @@ class ProductList with ChangeNotifier
   // Getter que retorna apenas os porodutos marcados como favoritos, obs: retorna uma cópia da lista original
   List<Product> get favoriteItems => [..._items].where((product) => product.isFavorite).toList();
   
+  int get itemsLength => _items.length;
+
   void addProduct(Product product )
   {
     _items.add(product);

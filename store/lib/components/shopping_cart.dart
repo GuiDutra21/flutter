@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 
 // Componente referente ao carrinho no appBar com a quantidade de itens
 class ShoppingCart extends StatelessWidget {
+
+  // Atributos
   final Widget child;
   final String value;
 
+  // Construtor
   const ShoppingCart({super.key, required this.child, required this.value});
 
   @override

@@ -4,4 +4,5 @@ class AppRoutes {
   static var productDetail = 'Product_detail';
   static var cart = 'Cart';
   static var orders = 'Orders';
+  static var products = 'Products';
 }

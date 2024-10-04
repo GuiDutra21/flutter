@@ -1,4 +1,3 @@
-// Classe modelo que representa/simula uma compra com os itens(Cart_item)
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -6,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'cart_item.dart';
 import 'product.dart';
 
+// Classe modelo que representa/simula uma compra com os itens(Cart_item)
 class Cart with ChangeNotifier {
+  
   Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get items => {..._items};

@@ -37,6 +37,16 @@ class AppDrawer extends StatelessWidget {
           const Divider(
             color: Colors.black54,
           ),
+          ListTile(
+            leading: const Icon(Icons.edit),
+            title: const Text('Gerenciar Pedidos'),
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed(AppRoutes.products);
+            },
+          ),
+          const Divider(
+            color: Colors.black54,
+          ),
         ],
       ),
     );

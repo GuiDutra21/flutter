@@ -5,7 +5,7 @@ import 'package:store/utils/app_routes.dart';
 
 import '../models/cart.dart';
 
-// Classe que representa cada quadrado com a imagem
+// Classe que representa cada quadrado com a imagem na tela principal
 class ProductGridItem extends StatelessWidget {
   // Construtor
   const ProductGridItem({super.key});
@@ -69,21 +69,25 @@ class ProductGridItem extends StatelessWidget {
               size: 25,
             ),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.green[500],
-                content: const Text(
-                  "Adicionado com sucesso !",
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-                duration: const Duration(seconds: 2),
-                action: SnackBarAction(
-                    backgroundColor: Colors.red[700],
-                    textColor: Colors.white,
-                    label: "DESFAZER ?",
-                    onPressed: () {
-                      cart.removeSingleItem(product.id);
-                    }),
+              // Para apenas mostrar o snackBar atual
+              ScaffoldMessenger.of(context).hideCurrentSnackBar(); 
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.green[500],
+                  content: const Text(
+                    "Adicionado com sucesso !",
+                    style: TextStyle(fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                  duration: const Duration(seconds: 2),
+                  action: SnackBarAction(
+                      backgroundColor: Colors.red[700],
+                      textColor: Colors.white,
+                      label: "DESFAZER ?",
+                      onPressed: () {
+                        cart.removeSingleItem(product.id);
+                      }),
               ));
               cart.addItem(product);
             },

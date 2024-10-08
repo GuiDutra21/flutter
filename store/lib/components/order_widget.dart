@@ -53,7 +53,7 @@ class OrderWidget extends StatelessWidget {
                         const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "${product.quantity} x ${product.price}",
+                    "${product.quantity.toStringAsFixed(0)} x ${product.price}",
                     style: const TextStyle(color: Colors.grey, fontSize: 18),
                   )
                 ],

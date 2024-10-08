@@ -75,20 +75,27 @@ class ProductGridItem extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: Colors.green[500],
-                  content: const Text(
-                    "Adicionado com sucesso !",
-                    style: TextStyle(fontSize: 18),
-                    textAlign: TextAlign.center,
+                  content: Row(
+                    children: [
+                      const Expanded( 
+                        child: Text(
+                          "Adicionado com sucesso!",
+                        ),
+                      ),
+                      SnackBarAction(
+                        backgroundColor: Colors.red[700],
+                        textColor: Colors.white,
+                        label: "DESFAZER?",
+                        onPressed: () {
+                          cart.removeSingleItem(product.id);
+                        },
+                      ),
+                    ],
                   ),
                   duration: const Duration(seconds: 2),
-                  action: SnackBarAction(
-                      backgroundColor: Colors.red[700],
-                      textColor: Colors.white,
-                      label: "DESFAZER ?",
-                      onPressed: () {
-                        cart.removeSingleItem(product.id);
-                      }),
-              ));
+                ),
+              );
+
               cart.addItem(product);
             },
           ),

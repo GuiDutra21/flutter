@@ -35,9 +35,9 @@ class OrderWidget extends StatelessWidget {
             ),
           ),
         
-          title: Text("Número do pedido: ${order.id}"),
+          title: FittedBox(child: Text("Número do pedido: ${order.id}", maxLines: 1,)),
           
-          subtitle: Text("R\$ ${order.total.toStringAsFixed(2)}"),
+          subtitle: Text("Total: R\$ ${order.total.toStringAsFixed(2)}"),
           
           children: order.products.map((product) {
             
@@ -53,7 +53,7 @@ class OrderWidget extends StatelessWidget {
                         const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "${product.quantity} x ${product.price}",
+                    "${product.quantity.toStringAsFixed(0)} x ${product.price}",
                     style: const TextStyle(color: Colors.grey, fontSize: 18),
                   )
                 ],

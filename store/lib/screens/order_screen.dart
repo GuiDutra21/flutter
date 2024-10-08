@@ -4,6 +4,7 @@ import 'package:store/components/app_drawer.dart';
 import 'package:store/components/order_widget.dart';
 import 'package:store/models/order_list.dart';
 
+// Tela de registro dos pedidos
 class OrderScreen extends StatelessWidget {
   const OrderScreen({super.key});
 

@@ -73,6 +73,6 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         body: ProductGrid(
           onlyFavorite: _onlyFavorite,
         ),
-        drawer: AppDrawer(),);
+        drawer: const AppDrawer(),);
   }
 }

@@ -23,11 +23,11 @@ class CartScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Total :"),
-                SizedBox(width: 15),
+                const Text("Total :"),
+                const SizedBox(width: 15),
                 Chip(label: Text("R\$${cart.totalAmount}")),
-                Spacer(),
-                TextButton(onPressed: () {}, child: Text("Comprar"))
+                const Spacer(),
+                TextButton(onPressed: () {}, child: const Text("Comprar"))
               ],
             ),
           )),

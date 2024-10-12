@@ -14,6 +14,7 @@ class ProductFormScreen extends StatefulWidget {
 }
 
 class _ProductFormScreenState extends State<ProductFormScreen> {
+  bool isLoading = false;
   // Focos
   final _priceFocus = FocusNode();
   final _descriptionFocus = FocusNode();
@@ -35,13 +36,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-   
 
-    if(_formData.isEmpty)
-    {
+    if (_formData.isEmpty) {
       final arg = ModalRoute.of(context)?.settings.arguments;
-      if (arg != null)
-      {
+      if (arg != null) {
         final product = arg as Product;
         _formData['id'] = product.id;
         _formData['name'] = product.name;
@@ -52,7 +50,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
         _imageUrlController.text = product.imageUrl;
       }
     }
-    
   }
 
   @override
@@ -84,10 +81,16 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       return;
     } // Se não for válido já termina o método
 
+    setState(() => isLoading = true);
+
     _formKey.currentState
         ?.save(); // Viabiliza o uso do atributo onSave em cada formulario
-    Provider.of<ProductList>(context, listen: false).saveProduct(_formData);
-    Navigator.of(context).pop();
+    Provider.of<ProductList>(context, listen: false)
+        .saveProduct(_formData)
+        .then((_) {
+      setState(() => isLoading = false);
+      Navigator.of(context).pop();
+    });
   }
 
   @override
@@ -105,7 +108,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
           )
         ],
       ),
-      body: Padding(
+      body: isLoading ? const Center( child: CircularProgressIndicator(),) : Padding(
         padding: const EdgeInsets.all(15),
         child: Form(
             key:

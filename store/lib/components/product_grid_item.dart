@@ -63,7 +63,7 @@ class ProductGridItem extends StatelessWidget {
             maxLines: 1, // Limita o texto a uma linha
             overflow: TextOverflow.ellipsis, // Adiciona reticências quando necessário
             minFontSize: 10, // Defina o tamanho mínimo do texto
-            maxFontSize: 20, // Tamanho máximo do texto (pode ajustar conforme necessário)
+            maxFontSize: 20, // Tamanho máximo do texto
           ),
 
           // Ícone da direita

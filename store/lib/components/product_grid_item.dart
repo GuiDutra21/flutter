@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/models/product.dart';
@@ -15,7 +16,7 @@ class ProductGridItem extends StatelessWidget {
     // Produto oriundo da instância criada no ProductGrid através do ChangeNotifierProvider.value
     final product = Provider.of<Product>(
       context,
-      // caso for false, as alterações realizadas nesse atributo não serão refletidas na interface gráfica
+      // Se [listen] for verdadeiro, alterações de valor posteriores acionarão um novo [State.build] para widgets e [State.didChangeDependencies] para [StatefulWidget].
       // obs: por padrão tem o valor de true
       listen: false,
     );
@@ -54,12 +55,16 @@ class ProductGridItem extends StatelessWidget {
                           )),
           ),
 
-          // Título
-          title: FittedBox(
-              child: Text(
+        // Título
+         title: AutoSizeText(
             product.name,
             textAlign: TextAlign.center,
-          )),
+            style: const TextStyle(fontSize: 25), // Defina o tamanho de texto máximo desejado
+            maxLines: 1, // Limita o texto a uma linha
+            overflow: TextOverflow.ellipsis, // Adiciona reticências quando necessário
+            minFontSize: 10, // Defina o tamanho mínimo do texto
+            maxFontSize: 20, // Tamanho máximo do texto (pode ajustar conforme necessário)
+          ),
 
           // Ícone da direita
           trailing: IconButton(

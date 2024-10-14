@@ -74,7 +74,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     return isValid && endsWith;
   }
 
-  void submitForm() {
+  Future<void> submitForm() async {
     final isValid = _formKey.currentState?.validate() ?? false;
 
     if (!isValid) {
@@ -85,12 +85,31 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
 
     _formKey.currentState
         ?.save(); // Viabiliza o uso do atributo onSave em cada formulario
-    Provider.of<ProductList>(context, listen: false)
-        .saveProduct(_formData)
-        .then((_) {
-      setState(() => isLoading = false);
+
+    try {
+      await Provider.of<ProductList>(context, listen: false)
+          .saveProduct(_formData);
+
+      // Somente executa essa linha se o try der certo
       Navigator.of(context).pop();
-    });
+    } catch (error) {
+       await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                backgroundColor: Colors.amber,
+                title: const Text("Ocorreu um erro!"),
+                content: const Text("Não foi possível salvar o produto"),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text("OK"))
+                ],
+              ));
+    }finally{ 
+      // Mesmo se houver erro o finally depois é executado, ou seja, ele sempre é executado
+      setState(() => isLoading = false);
+    }
+
   }
 
   @override
@@ -108,132 +127,140 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
           )
         ],
       ),
-      body: isLoading ? const Center( child: CircularProgressIndicator(),) : Padding(
-        padding: const EdgeInsets.all(15),
-        child: Form(
-            key:
-                _formKey, // Essa chave permite termos acesso ao estado e demais dados do formulário
-            child: ListView(
-              children: [
-                TextFormField(
-                  initialValue: _formData['name']?.toString(),
-                  decoration: const InputDecoration(labelText: "Nome"),
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(_priceFocus);
-                  }, // Para passar o foco para o TextFormField com o _pricefocus
-                  onSaved: (name) => _formData['name'] = name ?? '',
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(15),
+              child: Form(
+                  key:
+                      _formKey, // Essa chave permite termos acesso ao estado e demais dados do formulário
+                  child: ListView(
+                    children: [
+                      TextFormField(
+                        initialValue: _formData['name']?.toString(),
+                        decoration: const InputDecoration(labelText: "Nome"),
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(_priceFocus);
+                        }, // Para passar o foco para o TextFormField com o _pricefocus
+                        onSaved: (name) => _formData['name'] = name ?? '',
 
-                  validator: (name) {
-                    final _name = name ?? '';
-                    if (_name.trim().isEmpty)
-                      return 'O nome não pode ser vazio!'; // mensagem de erro que irá aparecer
+                        validator: (name) {
+                          final _name = name ?? '';
+                          if (_name.trim().isEmpty)
+                            return 'O nome não pode ser vazio!'; // mensagem de erro que irá aparecer
 
-                    if (_name.trim().length < 3)
-                      return "O nome deve ter pelo menos 3 caracteres";
+                          if (_name.trim().length < 3)
+                            return "O nome deve ter pelo menos 3 caracteres";
 
-                    return null; // Retorna null para indicar que está certo
-                  },
-                ),
-                TextFormField(
-                  initialValue: _formData['price']?.toString(),
-                  decoration: const InputDecoration(labelText: "Preço (R\$)"),
-                  textInputAction: TextInputAction.next,
-                  focusNode:
-                      _priceFocus, // Referência para onde o foco irá depois de 'clicarmos próximo' no TextFormField anterior
-                  keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true, signed: true),
-                  onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(_descriptionFocus);
-                  }, // Para passar o foco para o TextFormField com o _descriptionFocus
-                  onSaved: (price) =>
-                      _formData['price'] = double.parse(price ?? '0'),
-                  validator: (price) {
-                    final priceString = price ?? '';
-                    final _price = double.tryParse(priceString) ?? -1;
-
-                    if (_price <= 0) return 'Informe um preço válido!';
-
-                    return null;
-                  },
-                ),
-                TextFormField(
-                    initialValue: _formData['description']?.toString(),
-                    decoration: const InputDecoration(labelText: "Descrição"),
-                    textInputAction: TextInputAction
-                        .next, // Para quando clicar no enter ir para o próximo formulário (mas sozinho não faz isso)
-                    focusNode:
-                        _descriptionFocus, // Referência para onde o foco irá depois de 'clicarmos próximo' no TextFormField anterior
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 3,
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_imageUrlFocus);
-                    }, // Para passar o foco para o TextFormField com o _imageUrlFocus
-                    onSaved: (description) =>
-                        _formData['description'] = description ?? '',
-                    validator: (description) {
-                      final _description = description ?? '';
-
-                      if (_description.isEmpty)
-                        return "A descrição não pode ser vazia!";
-
-                      if (_description.trim().length < 10)
-                        return "A descrição deve ter pelo menos de 10 letras";
-
-                      return null;
-                    }),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: TextFormField(
+                          return null; // Retorna null para indicar que está certo
+                        },
+                      ),
+                      TextFormField(
+                        initialValue: _formData['price']?.toString(),
                         decoration:
-                            const InputDecoration(labelText: "Url da imagem"),
-                        textInputAction: TextInputAction.done,
+                            const InputDecoration(labelText: "Preço (R\$)"),
+                        textInputAction: TextInputAction.next,
                         focusNode:
-                            _imageUrlFocus, // Referência para onde o foco irá depois de 'clicarmos próximo' no TextFormField anterior
-                        controller: _imageUrlController,
-                        onSaved: (imageUrl) =>
-                            _formData['imageUrl'] = imageUrl ?? '',
-                        onFieldSubmitted: (_) => submitForm(),
-                        validator: (imageUrl) {
-                          final _imageUrl = imageUrl ?? '';
+                            _priceFocus, // Referência para onde o foco irá depois de 'clicarmos próximo' no TextFormField anterior
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true, signed: true),
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context)
+                              .requestFocus(_descriptionFocus);
+                        }, // Para passar o foco para o TextFormField com o _descriptionFocus
+                        onSaved: (price) =>
+                            _formData['price'] = double.parse(price ?? '0'),
+                        validator: (price) {
+                          final priceString = price ?? '';
+                          final _price = double.tryParse(priceString) ?? -1;
 
-                          if (!isUrlValid(_imageUrl))
-                            return 'Informe uma URL válida!';
+                          if (_price <= 0) return 'Informe um preço válido!';
 
                           return null;
                         },
                       ),
-                    ),
-                    Container(
-                        height: 100,
-                        width: 100,
-                        margin: const EdgeInsets.only(
-                          top: 15,
-                          left: 10,
-                        ),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                          color: Colors.grey,
-                          width: 1,
-                        )),
-                        alignment: Alignment.center,
-                        child: _imageUrlController.text.isEmpty
-                            ? const Text("Infome a URL")
-                            : Image.network(
-                                fit: BoxFit.cover,
-                                _imageUrlController.text,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    const Text(
-                                      "URL inválida",
-                                      style: TextStyle(color: Colors.red),
-                                    ))),
-                  ],
-                ),
-              ],
-            )),
-      ),
+                      TextFormField(
+                          initialValue: _formData['description']?.toString(),
+                          decoration:
+                              const InputDecoration(labelText: "Descrição"),
+                          textInputAction: TextInputAction
+                              .next, // Para quando clicar no enter ir para o próximo formulário (mas sozinho não faz isso)
+                          focusNode:
+                              _descriptionFocus, // Referência para onde o foco irá depois de 'clicarmos próximo' no TextFormField anterior
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 3,
+                          onFieldSubmitted: (_) {
+                            FocusScope.of(context).requestFocus(_imageUrlFocus);
+                          }, // Para passar o foco para o TextFormField com o _imageUrlFocus
+                          onSaved: (description) =>
+                              _formData['description'] = description ?? '',
+                          validator: (description) {
+                            final _description = description ?? '';
+
+                            if (_description.isEmpty)
+                              return "A descrição não pode ser vazia!";
+
+                            if (_description.trim().length < 10)
+                              return "A descrição deve ter pelo menos de 10 letras";
+
+                            return null;
+                          }),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                  labelText: "Url da imagem"),
+                              textInputAction: TextInputAction.done,
+                              focusNode:
+                                  _imageUrlFocus, // Referência para onde o foco irá depois de 'clicarmos próximo' no TextFormField anterior
+                              controller: _imageUrlController,
+                              onSaved: (imageUrl) =>
+                                  _formData['imageUrl'] = imageUrl ?? '',
+                              onFieldSubmitted: (_) => submitForm(),
+                              validator: (imageUrl) {
+                                final _imageUrl = imageUrl ?? '';
+
+                                if (!isUrlValid(_imageUrl))
+                                  return 'Informe uma URL válida!';
+
+                                return null;
+                              },
+                            ),
+                          ),
+                          Container(
+                              height: 100,
+                              width: 100,
+                              margin: const EdgeInsets.only(
+                                top: 15,
+                                left: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                color: Colors.grey,
+                                width: 1,
+                              )),
+                              alignment: Alignment.center,
+                              child: _imageUrlController.text.isEmpty
+                                  ? const Text("Infome a URL")
+                                  : Image.network(
+                                      fit: BoxFit.cover,
+                                      _imageUrlController.text,
+                                      errorBuilder: (context, error,
+                                              stackTrace) =>
+                                          const Text(
+                                            "URL inválida",
+                                            style: TextStyle(color: Colors.red),
+                                          ))),
+                        ],
+                      ),
+                    ],
+                  )),
+            ),
     );
   }
 }

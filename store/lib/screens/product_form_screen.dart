@@ -109,7 +109,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       // Mesmo se houver erro o finally depois é executado, ou seja, ele sempre é executado
       setState(() => isLoading = false);
     }
-
   }
 
   @override

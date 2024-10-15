@@ -40,6 +40,7 @@ class ProductList with ChangeNotifier {
           description: productData['description'],
           imageUrl: productData['imageUrl']));
     });
+    notifyListeners();
   }
 
   Future<void> saveProduct(Map<String, Object> data) {

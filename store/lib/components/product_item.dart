@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:store/exceptions/http_exception.dart';
 import 'package:store/models/product.dart';
 import 'package:store/models/product_list.dart';
 
@@ -15,6 +16,9 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
     return ListTile(
       leading: CircleAvatar(
         backgroundImage: NetworkImage(product.imageUrl),
@@ -47,22 +51,26 @@ class ProductItem extends StatelessWidget {
                                         false); // Para fechar o AlertDialog e retorna false
                                   },
                                   child: const Text("Não")),
-
                               TextButton(
                                   onPressed: () {
-                                    Provider.of<ProductList>(context, listen: false).removeProduct(product);
                                     Navigator.of(context).pop(
                                         true); // Para fechar o AlertDialog e retorna true
                                   },
                                   child: const Text("Sim")),
                             ],
-                          ));
-                  //         .then((value) {
-                  //   if (value == true) {
-                  //     Provider.of<ProductList>(context, listen: false)
-                  //         .removeProduct(product);
-                  //   }
-                  // });
+                          )).then((value) async {
+                    if (value ?? false) {
+                      try {
+                        await Provider.of<ProductList>(context, listen: false)
+                            .removeProduct(product);
+                      } on HttpException catch (error) // esse 'on HttpException' captura apenas exceção do tipo HttpException
+                      {
+                        scaffoldMessenger.showSnackBar(
+                          SnackBar(content: Text(error.toString()))
+                        );
+                      }
+                    }
+                  });
                 },
                 icon: const Icon(Icons.delete),
                 color: Colors.red[600])

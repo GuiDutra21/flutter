@@ -5,15 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:store/exceptions/http_exception.dart';
 
+import '../constantes/const.dart';
 import 'product.dart';
 
 // Classe 'criada' pelo ChangeNotifyProvider e que contém a lista de produtos
 class ProductList with ChangeNotifier {
   // Atributos
   final List<Product> _items = [];
-
-  final _baseUrl =
-      'https://store-flutter-7a5b7-default-rtdb.firebaseio.com/products';
 
   // Getter que retorna uma cópia do atributo _items,
   // sendo que outras classes não conseguem alterar a lista origial
@@ -29,7 +27,7 @@ class ProductList with ChangeNotifier {
     _items.clear(); // Para não ficar gerando produtos duplicados
 
     final response = await get(Uri.parse(
-        '$_baseUrl.json')); // OBS: sempre lembrar que no final precisa colocar o .json
+        '${Const.url}.json')); // OBS: sempre lembrar que no final precisa colocar o .json
     if (response.body == 'null') return;
 
     Map<String, dynamic> data = jsonDecode(response.body);
@@ -39,7 +37,10 @@ class ProductList with ChangeNotifier {
           name: productData['name'],
           price: productData['price'],
           description: productData['description'],
-          imageUrl: productData['imageUrl']));
+          imageUrl: productData['imageUrl'],
+          isFavorite : productData['isFavorite']
+          )
+          );
     });
     notifyListeners();
   }
@@ -65,7 +66,7 @@ class ProductList with ChangeNotifier {
     final response = await post(
       // com o await ele espera o retorno para só depois executar o restante
       Uri.parse(
-          '$_baseUrl.json'), // OBS: sempre lembrar que no final precisa colocar o .json
+          '$Const.url.json'), // OBS: sempre lembrar que no final precisa colocar o .json
       body: jsonEncode({
         'name': product.name,
         'price': product.price,
@@ -94,7 +95,7 @@ class ProductList with ChangeNotifier {
     if (index >= 0) {
       await patch(
         Uri.parse(
-            '$_baseUrl/${product.id}.json'), // OBS: Nessa URL precisamos passar qual o produto que será alterado
+            '${Const.url}/${product.id}.json'), // OBS: Nessa URL precisamos passar qual o produto que será alterado
         body: jsonEncode({
           'name': product.name,
           'price': product.price,
@@ -120,7 +121,7 @@ class ProductList with ChangeNotifier {
 
       final response = await delete(
         Uri.parse(
-            '$_baseUrl/${product.id}.json'), // OBS: Nessa URL precisamos passar qual o produto que será removido
+            '${Const.url}/${product.id}.json'), // OBS: Nessa URL precisamos passar qual o produto que será removido
       );
 
       // Se der errado reinsere o produto e chama a exception

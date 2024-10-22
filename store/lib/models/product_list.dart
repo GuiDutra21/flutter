@@ -27,7 +27,7 @@ class ProductList with ChangeNotifier {
     _items.clear(); // Para não ficar gerando produtos duplicados
 
     final response = await get(Uri.parse(
-        '${Const.url}.json')); // OBS: sempre lembrar que no final precisa colocar o .json
+        '${Const.productBaseUrl}.json')); // OBS: sempre lembrar que no final precisa colocar o .json
     if (response.body == 'null') return;
 
     Map<String, dynamic> data = jsonDecode(response.body);
@@ -95,7 +95,7 @@ class ProductList with ChangeNotifier {
     if (index >= 0) {
       await patch(
         Uri.parse(
-            '${Const.url}/${product.id}.json'), // OBS: Nessa URL precisamos passar qual o produto que será alterado
+            '${Const.productBaseUrl}/${product.id}.json'), // OBS: Nessa URL precisamos passar qual o produto que será alterado
         body: jsonEncode({
           'name': product.name,
           'price': product.price,
@@ -121,7 +121,7 @@ class ProductList with ChangeNotifier {
 
       final response = await delete(
         Uri.parse(
-            '${Const.url}/${product.id}.json'), // OBS: Nessa URL precisamos passar qual o produto que será removido
+            '${Const.productBaseUrl}/${product.id}.json'), // OBS: Nessa URL precisamos passar qual o produto que será removido
       );
 
       // Se der errado reinsere o produto e chama a exception

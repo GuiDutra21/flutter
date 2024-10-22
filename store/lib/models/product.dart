@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
+import '../constantes/const.dart';
+
 class Product with ChangeNotifier {
   // Atriibutos
   final String id;
@@ -27,15 +29,14 @@ class Product with ChangeNotifier {
     isFavorite = !isFavorite;
     notifyListeners();
   }
-  Future <void> toggleFavorite() async{
-    
-    
+
+  Future <void> toggleFavorite() async{  
     try
     {
       _toggleFavorite();
       final response = await patch(
         Uri.parse(
-            'https://store-flutter-7a5b7-default-rtdb.firebaseio.com/products/$id.json'),
+            '${Const.productBaseUrl}$id.json'),
         body: jsonEncode({'isFavorite': isFavorite}),
       );
 

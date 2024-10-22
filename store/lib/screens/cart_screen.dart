@@ -54,13 +54,7 @@ class CartScreen extends StatelessWidget {
                   // Apenas para fazer o valor se aproximar do Total
                   const Spacer(),
 
-                  TextButton(
-                    onPressed: () {
-                      Provider.of<OrderList>(context, listen: false).addOrder(cart);
-                      cart.clear();
-                    },
-                    child: const Text("COMPRAR", style: TextStyle(fontSize: 15),),
-                  ),
+                  BuyButton(cart: cart),
                 ],
               ),
             ),
@@ -74,6 +68,40 @@ class CartScreen extends StatelessWidget {
                       CartItemWidget(cartItem: items[index]))),
         ],
       ),
+    );
+  }
+}
+
+// Classe que representa o botao de comprar no canto superioir direito
+class BuyButton extends StatefulWidget {
+
+  // Atributo
+  final Cart cart;
+
+  // Construtor
+  const BuyButton({
+    super.key,
+    required this.cart,
+  });
+
+  @override
+  State<BuyButton> createState() => _BuyButtonState();
+}
+
+class _BuyButtonState extends State<BuyButton> {
+
+  bool isLoading = false;
+  
+  @override
+  Widget build(BuildContext context) {
+    return isLoading ? const CircularProgressIndicator() : TextButton(
+      onPressed: widget.cart.items.isEmpty ? null :  () async {
+        setState(() => isLoading = true);
+        await Provider.of<OrderList>(context, listen: false).addOrder(widget.cart);
+        setState(() => isLoading = false);
+        widget.cart.clear();
+      },
+      child: const Text("COMPRAR", style: TextStyle(fontSize: 15),),
     );
   }
 }

@@ -10,6 +10,14 @@ class OrderWidget extends StatelessWidget {
   //Construtor
   const OrderWidget({required this.order, super.key});
 
+  // Apenas para converter o id do produto para um interio a fim de mostrar 'corretamente' o numero do pedido
+  int convertProductId(String productId)
+  { 
+    List<int> ascii = productId.codeUnits;
+
+    return ascii.reduce((value, element) => value + element);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -35,7 +43,7 @@ class OrderWidget extends StatelessWidget {
             ),
           ),
         
-          title: FittedBox(child: Text("Número do pedido: ${order.id}", maxLines: 1,)),
+          title: FittedBox(child: Text("Número do pedido: ${convertProductId(order.id)}", maxLines: 1,)),
           
           subtitle: Text("Total: R\$ ${order.total.toStringAsFixed(2)}"),
           

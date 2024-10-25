@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:store/models/cart_item.dart';
 import '../constantes/const.dart';
 import 'cart.dart';
 import 'order.dart';
@@ -38,7 +38,7 @@ class OrderList with ChangeNotifier {
 
       final id = jsonDecode(response.body)['name'];
       _items.insert(
-        0,
+        0, // indice
         Order(
             id: id,
             total: cart.totalAmount,
@@ -46,6 +46,32 @@ class OrderList with ChangeNotifier {
             date: date),
       );
     }
+    notifyListeners();
+  }
+
+  Future<void> loadOrders() async {
+    _items.clear(); // Para não ficar gerando pedidos duplicados
+
+    final response = await get(Uri.parse('${Const.orderBaseUrl}.json'));
+
+    if (response.body == 'null') return;
+
+    Map<String, dynamic> data = jsonDecode(response.body);
+
+    data.forEach((orderId, orderData) {
+      _items.add(Order(
+          id: orderId,
+          total: orderData['total'],
+          date: DateTime.parse(orderData['date']),
+          products: (orderData['products'] as List<dynamic>).map((item) {
+            return CartItem(
+                id: item['id'],
+                name: item['name'],
+                price: item['price'],
+                productId: item['productId'],
+                quantity: item['quantity']);
+          }).toList()));
+    });
     notifyListeners();
   }
 }

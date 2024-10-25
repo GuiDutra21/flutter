@@ -23,16 +23,20 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   bool _onlyFavorite = false;
   bool isLoading = true;
 
-  @override
-  initState() {
-    super.initState();
-    Provider.of<ProductList>(context, listen: false)
-        .loadProducts()
-        .then((_) 
-        { setState(() {
-              isLoading = false;
-            });});
-  }
+ @override
+void initState() {
+  super.initState();
+  Provider.of<ProductList>(context, listen: false)
+      .loadProducts()
+      .then((_) {
+        // The mounted property is a boolean that indicates whether the widget is still in the widget tree. By checking if (mounted) before calling setState(), you ensure that setState() is only called if the widget is still part of the widget tree.
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  });
+}
 
   @override
   Widget build(BuildContext context) {

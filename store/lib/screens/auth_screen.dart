@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:store/components/auth_form.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -18,20 +19,22 @@ class AuthScreen extends StatelessWidget {
               Colors.blue,
             ],
             stops: [
-              0.05, // Início da primeira cor
-              0.5, // Início da segunda cor
-              0.95, // Início da terceira cor
+              0.2, // Início da primeira cor
+              0.3, // Início da segunda cor
+              0.8, // Início da terceira cor
             ],
             begin: Alignment.topLeft, // Início no canto superior esquerdo
             end: Alignment.bottomRight, // Fim no canto inferior direito
           )),
         ),
+
         SizedBox(
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+
               Container(
                 decoration: BoxDecoration(
                   boxShadow: const [BoxShadow(
@@ -49,7 +52,8 @@ class AuthScreen extends StatelessWidget {
                   style: TextStyle(
                       color: Colors.white, fontFamily: 'Anton', fontSize: 45),
                 ),
-              )
+              ),
+              AuthForm(),
             ],
           ),
         )

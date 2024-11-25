@@ -46,7 +46,7 @@ class _AuthFormState extends State<AuthForm> {
     );
     if( isLogin())
     {
-      // Login
+      await authProvider.login(_authData['Email']!, _authData['Password']!);
     }
     else
     {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:store/exceptions/auth_exception.dart';
 import 'package:store/models/auth.dart';
 
 enum AuthMode { login, signUp }
@@ -10,8 +11,6 @@ class AuthForm extends StatefulWidget {
   @override
   State<AuthForm> createState() => _AuthFormState();
 }
-
-void _submit() {}
 
 class _AuthFormState extends State<AuthForm> {
   var _passWordController = TextEditingController();
@@ -32,29 +31,47 @@ class _AuthFormState extends State<AuthForm> {
     });
   }
 
-  Future<void> _submit() async{
+  void _showErroDialog(String error) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text('Ocorreu um erro'),
+              content: Text(error),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Fechar'))
+              ],
+            ));
+  }
 
+  Future<void> _submit() async {
     final isValid = _formKey.currentState!.validate();
 
-    if(!isValid)
-      return;
+    if (!isValid) return;
+
+    _formKey.currentState!
+        .save(); // Salva os dados passado no textFormField para o atributo save
     
-    _formKey.currentState!.save(); // Salva os dados passado no textFormField para o atributo save
     var authProvider = Provider.of<Auth>(context, listen: false);
-    setState(() =>
-      _isLoading = true
-    );
-    if( isLogin())
+
+    setState(() => _isLoading = true);
+
+    try {
+      if (isLogin()) {
+        await authProvider.login(_authData['Email']!, _authData['Password']!);
+      } else {
+        await authProvider.signUp(_authData['Email']!, _authData['Password']!);
+      }
+    } on AuthException catch (error) {
+      _showErroDialog(error.toString());
+
+    } catch (error)
     {
-      await authProvider.login(_authData['Email']!, _authData['Password']!);
+      _showErroDialog('Ocorreu um erro inesperado !');
     }
-    else
-    {
-      await authProvider.signUp(_authData['Email']!, _authData['Password']!);
-    }
-    setState(() =>
-      _isLoading = false
-    );
+
+    setState(() => _isLoading = false);
   }
 
   @override
@@ -63,7 +80,12 @@ class _AuthFormState extends State<AuthForm> {
 
     return SingleChildScrollView(
       child: Card(
-        margin: EdgeInsets.fromLTRB(0,50,0,mediaQuery.viewInsets.bottom + 16,),
+        margin: EdgeInsets.fromLTRB(
+          0,
+          50,
+          0,
+          mediaQuery.viewInsets.bottom + 16,
+        ),
         // margin: const EdgeInsets.only(top:50),
         elevation: 8,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -116,24 +138,26 @@ class _AuthFormState extends State<AuthForm> {
                     },
                   ),
                 const Spacer(flex: 3),
-                 _isLoading ? const CircularProgressIndicator() : Ink(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.blue,
-                  ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(30),
-                    splashColor: Colors.green,
-                    onTap: _submit,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-                      child: Text(
-                        isLogin() ? "ENTRAR" : 'REGISTRAR',
-                        style: const TextStyle(color: Colors.white),
+                _isLoading
+                    ? const CircularProgressIndicator()
+                    : Ink(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.blue,
+                        ),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(30),
+                          splashColor: Colors.green,
+                          onTap: _submit,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+                            child: Text(
+                              isLogin() ? "ENTRAR" : 'REGISTRAR',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
                 const Spacer(flex: 3),
                 Text(isLogin() ? 'Não tem uma conta ?' : 'já possui conta ?'),
                 TextButton(

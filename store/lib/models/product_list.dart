@@ -10,6 +10,7 @@ import 'product.dart';
 
 // Classe 'criada' pelo ChangeNotifyProvider e que contém a lista de produtos
 class ProductList with ChangeNotifier {
+
   // Atributos
   final List<Product> _items = [];
 
@@ -23,15 +24,20 @@ class ProductList with ChangeNotifier {
 
   int get itemsLength => _items.length;
 
-  Future<void> loadProducts() async {
+  // Recupera os produtos do back e armazena na variável _items
+  Future<void> loadProducts() async 
+  {
     _items.clear(); // Para não ficar gerando produtos duplicados
 
+    // Faz a requisição ao Back
     final response = await get(Uri.parse(
         '${Const.productBaseUrl}.json')); // OBS: sempre lembrar que no final precisa colocar o .json
     if (response.body == 'null') return;
 
+    // Vai acrescentado na variável _items cada produto recuperado na requisição
     Map<String, dynamic> data = jsonDecode(response.body);
-    data.forEach((productId, productData) {
+    data.forEach((productId, productData)
+     {
       _items.add(Product(
           id: productId,
           name: productData['name'],
@@ -42,10 +48,13 @@ class ProductList with ChangeNotifier {
           )
           );
     });
-    notifyListeners();
+
+    notifyListeners(); // Notifica os 'interessados'
   }
 
-  Future<void> saveProduct(Map<String, Object> data) {
+  // Salva os produtos no back
+  Future<void> saveProduct(Map<String, Object> data) 
+  {
     bool hasId = data['id'] != null;
 
     final product = Product(
@@ -56,13 +65,17 @@ class ProductList with ChangeNotifier {
       imageUrl: data['imageUrl'].toString(),
     );
 
+    // Se é um produto novo apenas sava, caso contrário atualiza
     if (hasId)
       return updateProduct(product);
     else
       return addProduct(product);
   }
 
+  // Adiciona um novo produto
   Future<void> addProduct(Product product) async {
+
+    // Manda a requisição
     final response = await post(
       // com o await ele espera o retorno para só depois executar o restante
       Uri.parse(
@@ -75,7 +88,9 @@ class ProductList with ChangeNotifier {
         'isFavorite': product.isFavorite,
       }),
     );
-    var id = jsonDecode(response.body)['name'];
+
+     
+    var id = jsonDecode(response.body)['name']; // Pega o id gerado automaticamente pelo back
     _items.add(Product(
         id: id,
         name: product.name,
@@ -83,14 +98,14 @@ class ProductList with ChangeNotifier {
         description: product.description,
         imageUrl: product.imageUrl,
         isFavorite: product.isFavorite));
-    notifyListeners(); // para notificar os interessados
+
+    notifyListeners(); // Notifica os 'interessados'
   }
 
+  // Atualiza o produto
   Future<void> updateProduct(Product product) async {
     int index = _items.indexWhere((p) =>
-        p.id ==
-        product
-            .id); // Para capturar o índice desse produto na lista de produtos
+        p.id == product.id); // Para capturar o índice desse produto na lista de produtos
 
     if (index >= 0) {
       await patch(
@@ -105,16 +120,15 @@ class ProductList with ChangeNotifier {
       );
       _items[index] = product;
     }
-    notifyListeners();
+    notifyListeners(); // Notifica os 'interessados'
 
     return Future.value();
   }
 
   Future<void> removeProduct(Product product) async {
     int index = _items.indexWhere((p) =>
-        p.id ==
-        product
-            .id); // Para capturar o índice desse produto na lista de produtos
+        p.id == product.id); // Para capturar o índice desse produto na lista de produtos
+    
     if (index >= 0) {
       _items.remove(product);
       notifyListeners();
@@ -124,7 +138,7 @@ class ProductList with ChangeNotifier {
             '${Const.productBaseUrl}/${product.id}.json'), // OBS: Nessa URL precisamos passar qual o produto que será removido
       );
 
-      // Se der errado reinsere o produto e chama a exception
+      // Se der errado reinsere o produto na variável _items e chama a exception
       if (response.statusCode >= 400) {
         _items.insert(index, product);
         notifyListeners();

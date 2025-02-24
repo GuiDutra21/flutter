@@ -24,7 +24,9 @@ class Cart with ChangeNotifier {
     // return _items.values.fold(0.0,(total,item) => total + item.price * item.quantity);
   }
 
+  // Adiciona um produto na variável
   void addItem(Product product) {
+
     // se já existir aquele item apenas aumenta a quantidade
     if (_items.containsKey(product.id)) {
       _items.update(

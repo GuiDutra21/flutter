@@ -41,8 +41,9 @@ class MyApp extends StatelessWidget {
             create: (_) => Auth(), 
           ),
         ],
+
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Store Demo',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
         
@@ -61,8 +62,8 @@ class MyApp extends StatelessWidget {
             ),
         
             // Cor de fundo do app
-            // scaffoldBackgroundColor: const Color.fromARGB(233, 255, 248, 225),
             scaffoldBackgroundColor: const Color.fromARGB(255, 223, 214, 189),
+            // scaffoldBackgroundColor: const Color.fromARGB(233, 255, 248, 225),
         
             fontFamily: 'Lato',
             useMaterial3: true,

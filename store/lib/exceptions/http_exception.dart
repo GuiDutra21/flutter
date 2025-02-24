@@ -1,4 +1,4 @@
-// Classe para implementarmos as exceções da requisisão Http delete 
+// Classe para implementarmos as exceções da requisição Http delete 
 class HttpException implements Exception {
 
   // Atributos

@@ -8,6 +8,7 @@ class AuthException implements Exception {
     'EMAIL_NOT_FOUND' : 'E-mail não encontrado',
     'INVALID_PASSWORD' : 'Senha incorreta',
     'USER_DISABLED' : 'A conta do usuário foi desabilitada!',
+    'INVALID_LOGIN_CREDENTIALS' : 'Credenciais de Login inválidas'
   };
 
   final String key;
@@ -17,7 +18,7 @@ class AuthException implements Exception {
   @override
   String toString()
   {
-    return erros['values'] ?? 'Ocorreu um erro de autenticação';
+    return erros[key] ?? 'Ocorreu um erro de autenticação';
   }
 
 }

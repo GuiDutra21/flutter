@@ -4,6 +4,7 @@ import 'package:store/models/auth.dart';
 import 'package:store/models/cart.dart';
 import 'package:store/models/order_list.dart';
 import 'package:store/models/product_list.dart';
+import 'package:store/screens/auth_or_home_screen.dart';
 import 'package:store/screens/auth_screen.dart';
 import 'package:store/screens/cart_screen.dart';
 import 'package:store/screens/order_screen.dart';
@@ -70,8 +71,7 @@ class MyApp extends StatelessWidget {
           ),
           routes: 
           { 
-            AppRoutes.auth: (context) => const  AuthScreen(),
-            AppRoutes.home: (context) => const  ProductsOverviewScreen(),
+            AppRoutes.authOrHome: (context) => const  AuthOrHomeScreen(),
             AppRoutes.productDetail: (context) => const ProductDetailScreen(),
             AppRoutes.cart: (context) => const CartScreen(),
             AppRoutes.orders: (context) =>  const OrderScreen(),
@@ -83,4 +83,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

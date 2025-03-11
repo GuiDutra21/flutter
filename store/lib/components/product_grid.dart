@@ -24,13 +24,13 @@ class ProductGrid extends StatelessWidget {
     // Acessa a lista de produtos que está dentro do provider
     final List<Product> productList = onlyFavorite ? provider.favoriteItems : provider.items;
    
-    // Widget responsável por criar a lyout em matriz
+    // Widget responsável por criar o layout de matriz
     return GridView.builder(
         padding: const EdgeInsets.all(10),
         itemCount: productList.length,
         itemBuilder: (context, index) => ChangeNotifierProvider.value(
-            value: productList[index], 
             // está reusando o ChangeNotifier, nesse caso ele está meio que instanciando cada produto da lista de produtos, sendo que cada um deles será usado no ProductItem
+            value: productList[index], 
               child:  ProductGridItem()), // OBS: não coloque o const aqui, se não vai dar erro na hora de selecionar os favoritos
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,

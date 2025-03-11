@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:store/components/auth_form.dart';
 
+// Tela de autenticação
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
 
@@ -14,6 +15,8 @@ class AuthScreen extends StatelessWidget {
       },
       child: Scaffold(
         body: Stack(children: [
+
+          // background do scaffold
           Container(
             decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -38,7 +41,8 @@ class AuthScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-          
+                
+                // Retângulo vermelho inclinado
                 Container(
                   decoration: BoxDecoration(
                     boxShadow: const [BoxShadow(
@@ -57,6 +61,8 @@ class AuthScreen extends StatelessWidget {
                         color: Colors.white, fontFamily: 'Anton', fontSize: 45),
                   ),
                 ),
+                
+                // Quadrado da autenticação
                 Flexible(fit: FlexFit.loose , child: AuthForm()),
               ],
             ),

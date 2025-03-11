@@ -7,10 +7,13 @@ import '../models/cart.dart';
 
 // Tela de detalhe das compras, quando clicamos no ícone do carrinho de compras
 class CartScreen extends StatelessWidget {
+
+  // Construtor
   const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    
     // Providers
     var cart = Provider.of<Cart>(context);
     var items = cart.items.values.toList(); // lista de items do carrinho

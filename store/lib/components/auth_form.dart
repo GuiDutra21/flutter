@@ -5,6 +5,7 @@ import 'package:store/models/auth.dart';
 
 enum AuthMode { login, signUp }
 
+// Widget que representa o quadrado de autenticação com os campos de login ou signUp
 class AuthForm extends StatefulWidget {
   const AuthForm({super.key});
 
@@ -13,6 +14,7 @@ class AuthForm extends StatefulWidget {
 }
 
 class _AuthFormState extends State<AuthForm> {
+
   var _passWordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
 
@@ -45,13 +47,15 @@ class _AuthFormState extends State<AuthForm> {
             ));
   }
 
+  // Função que faz a chamada da subimissão dos dados do login/signUp
   Future<void> _submit() async {
-    final isValid = _formKey.currentState!.validate();
+
+    final isValid = _formKey.currentState!.validate(); // Percorre todos os campos do Form e executa os validator definidos
 
     if (!isValid) return;
 
     _formKey.currentState!
-        .save(); // Salva os dados passado no textFormField para o atributo save
+        .save(); // Chama o onSaved de cada TextFormField, preenchendo _authData com os valores digitados
     
     var authProvider = Provider.of<Auth>(context, listen: false);
 
@@ -62,6 +66,7 @@ class _AuthFormState extends State<AuthForm> {
         await authProvider.login(_authData['Email']!, _authData['Password']!);
       } else {
         await authProvider.signUp(_authData['Email']!, _authData['Password']!);
+        switchAuthMode();
       }
     } on AuthException catch (error) {
       _showErroDialog(error.toString());
@@ -93,10 +98,13 @@ class _AuthFormState extends State<AuthForm> {
           padding: const EdgeInsets.all(16),
           height: isLogin() ? 330 : 400,
           width: mediaQuery.size.width * 0.8,
+
+          // Formulário propriamente dito
           child: Form(
             key: _formKey, // Para savar as informações
             child: Column(
               children: [
+
                 TextFormField(
                   decoration: const InputDecoration(labelText: "E-mail"),
                   keyboardType: TextInputType.emailAddress,
@@ -109,6 +117,7 @@ class _AuthFormState extends State<AuthForm> {
                     return null;
                   },
                 ),
+                
                 TextFormField(
                   decoration: const InputDecoration(labelText: "Password"),
                   keyboardType: TextInputType.emailAddress,
@@ -121,7 +130,8 @@ class _AuthFormState extends State<AuthForm> {
                       return 'Informe uma senha com mais de 3 caracteres';
                     }
                     return null;
-                  },
+                  }
+                  ,
                 ),
                 if (isSignUp())
                   TextFormField(

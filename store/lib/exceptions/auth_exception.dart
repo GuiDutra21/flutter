@@ -1,4 +1,3 @@
-import 'package:store/screens/products_overview_screen.dart';
 
 class AuthException implements Exception {
   static const Map<String, String> erros = 

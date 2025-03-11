@@ -8,18 +8,21 @@ import '../models/cart.dart';
 
 // Classe que representa cada quadrado com a imagem na tela principal
 class ProductGridItem extends StatelessWidget {
+
   // Construtor
   const ProductGridItem({super.key});
 
   @override
   Widget build(BuildContext context) {
+    
     // Produto oriundo da instância criada no ProductGrid através do ChangeNotifierProvider.value
     final product = Provider.of<Product>(
       context,
       // Se [listen] for verdadeiro, alterações de valor posteriores acionarão um novo [State.build] para widgets e [State.didChangeDependencies] para [StatefulWidget].
-      // obs: por padrão tem o valor de true
+      // OBS: por padrão tem o valor de true
       listen: false,
     );
+
     final cart = Provider.of<Cart>(context, listen: false);
 
     return ClipRRect(
@@ -116,7 +119,7 @@ class ProductGridItem extends StatelessWidget {
             product.imageUrl,
             fit: BoxFit.cover,
 
-            // Bolinha de carregamento
+            // Bolinha de carregamento da imagem
             loadingBuilder: (context, child, loadingProgress) {
               return loadingProgress == null
                   ? child

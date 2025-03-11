@@ -20,6 +20,7 @@ class ProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     // Lista com os produtos
     final products = Provider.of<ProductList>(context);
 

@@ -6,6 +6,7 @@ import '../models/product.dart';
 
 // Tela de formulário para quando desejamos criar um novo produto
 class ProductFormScreen extends StatefulWidget {
+
   // Construtor
   const ProductFormScreen({super.key});
 
@@ -14,7 +15,9 @@ class ProductFormScreen extends StatefulWidget {
 }
 
 class _ProductFormScreenState extends State<ProductFormScreen> {
+  
   bool isLoading = false;
+  
   // Focos
   final _priceFocus = FocusNode();
   final _descriptionFocus = FocusNode();
@@ -22,7 +25,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   final _imageUrlController =
       TextEditingController(); // Controller para ter acesso a imagem antes de submeter o formulario
 
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>(); // Permite acessar e modificar o estado do formulário
   final _formData = <String, Object>{};
 
   @override
@@ -30,9 +33,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     super.initState();
     _imageUrlController.addListener(updateImage);
     // Adicionando o listener no controller a imagem muda em tempo real
-    // Agora se adicionarmos o listener no focus, a imgem mudaria apenas quando o focus mudasse
+    // Agora se adicionarmos o listener no focus, a imagem mudaria apenas quando o focus mudasse
   }
 
+  // é chamado sempre que as dependências do objeto State mudam
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -73,9 +77,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
         url.endsWith('.jpg');
     return isValid && endsWith;
   }
-
+  
   Future<void> submitForm() async {
-    final isValid = _formKey.currentState?.validate() ?? false;
+
+    final isValid = _formKey.currentState?.validate() ?? false; // Percorre todos os campos do Form e executa os validator definidos
 
     if (!isValid) {
       return;
@@ -137,6 +142,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                       _formKey, // Essa chave permite termos acesso ao estado e demais dados do formulário
                   child: ListView(
                     children: [
+
                       TextFormField(
                         initialValue: _formData['name']?.toString(),
                         decoration: const InputDecoration(labelText: "Nome"),
@@ -157,13 +163,14 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                           return null; // Retorna null para indicar que está certo
                         },
                       ),
+
                       TextFormField(
                         initialValue: _formData['price']?.toString(),
                         decoration:
                             const InputDecoration(labelText: "Preço (R\$)"),
                         textInputAction: TextInputAction.next,
                         focusNode:
-                            _priceFocus, // Referência para onde o foco irá depois de 'clicarmos próximo' no TextFormField anterior
+                            _priceFocus, // Vincula o _priceFocus a esse TextFormField
                         keyboardType: const TextInputType.numberWithOptions(
                             decimal: true, signed: true),
                         onFieldSubmitted: (_) {
@@ -181,6 +188,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                           return null;
                         },
                       ),
+
                       TextFormField(
                           initialValue: _formData['description']?.toString(),
                           decoration:
@@ -188,7 +196,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                           textInputAction: TextInputAction
                               .next, // Para quando clicar no enter ir para o próximo formulário (mas sozinho não faz isso)
                           focusNode:
-                              _descriptionFocus, // Referência para onde o foco irá depois de 'clicarmos próximo' no TextFormField anterior
+                              _descriptionFocus, // Vincula o _descriptionFocus a esse TextFormField
                           keyboardType: TextInputType.multiline,
                           maxLines: 3,
                           onFieldSubmitted: (_) {
@@ -206,7 +214,9 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                               return "A descrição deve ter pelo menos de 10 letras";
 
                             return null;
-                          }),
+                          }
+                        ),
+
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -216,7 +226,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                   labelText: "Url da imagem"),
                               textInputAction: TextInputAction.done,
                               focusNode:
-                                  _imageUrlFocus, // Referência para onde o foco irá depois de 'clicarmos próximo' no TextFormField anterior
+                                  _imageUrlFocus, // Vincula o _imageUrlFocus a esse TextFormField
                               controller: _imageUrlController,
                               onSaved: (imageUrl) =>
                                   _formData['imageUrl'] = imageUrl ?? '',

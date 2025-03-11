@@ -4,6 +4,7 @@ import '../models/order.dart';
 
 // Classe que representa cada CARD da tela orderScreen
 class OrderWidget extends StatelessWidget {
+  
   // Atributo
   final Order order;
 

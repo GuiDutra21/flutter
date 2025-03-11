@@ -33,20 +33,18 @@ class ProductList with ChangeNotifier {
     final response = await get(Uri.parse(
         '${Const.productBaseUrl}.json')); // OBS: sempre lembrar que no final precisa colocar o .json
     if (response.body == 'null') return;
-
+    
     // Vai acrescentado na variável _items cada produto recuperado na requisição
     Map<String, dynamic> data = jsonDecode(response.body);
-    data.forEach((productId, productData)
-     {
+    data.forEach((productId, productData) {
       _items.add(Product(
-          id: productId,
-          name: productData['name'],
-          price: productData['price'],
-          description: productData['description'],
-          imageUrl: productData['imageUrl'],
-          isFavorite : productData['isFavorite']
-          )
-          );
+        id: productId,
+        name: productData['name'] ?? '',
+        price: productData['price']?.toDouble() ?? 0.0,
+        description: productData['description'] ?? '',
+        imageUrl: productData['imageUrl'] ?? '',
+        isFavorite: productData['isFavorite'] ?? false,
+      ));
     });
 
     notifyListeners(); // Notifica os 'interessados'

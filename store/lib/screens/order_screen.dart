@@ -6,6 +6,8 @@ import 'package:store/models/order_list.dart';
 
 // Tela de registro dos pedidos
 class OrderScreen extends StatelessWidget {
+
+  // Construtor
   const OrderScreen({super.key});
 
   // Apenas para não ficar repetindo o provider varias vezes
@@ -19,7 +21,9 @@ class OrderScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Meus pedidos"),
         ),
+
         drawer: const AppDrawer(),
+        
         body: FutureBuilder( // Subsitui nesse caso a necessidade de um statefulWidget
           future: loadOrders(context),
           builder: (context, snapshot) {

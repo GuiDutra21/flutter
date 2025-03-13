@@ -9,13 +9,11 @@ import '../models/cart.dart';
 
 // Classe que representa cada quadrado com a imagem na tela principal
 class ProductGridItem extends StatelessWidget {
-
   // Construtor
   const ProductGridItem({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
     // Produto oriundo da instância criada no ProductGrid através do ChangeNotifierProvider.value
     final product = Provider.of<Product>(
       context,
@@ -45,7 +43,10 @@ class ProductGridItem extends StatelessWidget {
                 // Ícone da esquerda
                 IconButton(
                     onPressed: () {
-                      product.toggleFavorite(auth.token ?? '');
+                      product.toggleFavorite(
+                        auth.token ?? '',
+                        auth.userId ?? '',
+                      );
                     },
                     icon: product.isFavorite
                         ? const Icon(
@@ -60,13 +61,15 @@ class ProductGridItem extends StatelessWidget {
                           )),
           ),
 
-        // Título
-         title: AutoSizeText(
+          // Título
+          title: AutoSizeText(
             product.name,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 25), // Defina o tamanho de texto máximo desejado
+            style: const TextStyle(
+                fontSize: 25), // Defina o tamanho de texto máximo desejado
             maxLines: 1, // Limita o texto a uma linha
-            overflow: TextOverflow.ellipsis, // Adiciona reticências quando necessário
+            overflow:
+                TextOverflow.ellipsis, // Adiciona reticências quando necessário
             minFontSize: 10, // Defina o tamanho mínimo do texto
             maxFontSize: 20, // Tamanho máximo do texto
           ),
@@ -80,14 +83,14 @@ class ProductGridItem extends StatelessWidget {
             ),
             onPressed: () {
               // Para apenas mostrar o snackBar atual
-              ScaffoldMessenger.of(context).hideCurrentSnackBar(); 
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: Colors.green[500],
                   content: Row(
                     children: [
-                      const Expanded( 
+                      const Expanded(
                         child: Text(
                           "Adicionado com sucesso!",
                         ),

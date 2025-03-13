@@ -27,19 +27,23 @@ class MyApp extends StatelessWidget {
     return 
       MultiProvider(
         providers: [
+          
           ChangeNotifierProvider(
             create: (_) => Auth(), // Cria o ChangeNotifier para a classe que contém o dado
           ),
+          
           ChangeNotifierProxyProvider<Auth, ProductList>( // Quando um provider depende/usa de dados de outro usamos o ProxyProvider
-            create: (_) => ProductList('', []), 
+            create: (_) => ProductList(), 
             update: (context, auth, previous) => 
-            ProductList(auth.token ?? '' , previous?.items ?? []) // Atualiza o token, mas mantem a lista, por isso o previous
+            ProductList(auth.token ?? '' , auth.userId ?? '', previous?.items ?? []) // Atualiza o token, mas mantem a lista, por isso o previous
           ),
+
           ChangeNotifierProxyProvider<Auth, OrderList>(
-            create: (_) => OrderList('', []),
+            create: (_) => OrderList(),
             update:(context, auth, previous) => 
             OrderList(auth.token ?? '', previous?.items ?? []),
           ),
+          
           ChangeNotifierProvider(
             create: (_) => Cart(), 
           ),

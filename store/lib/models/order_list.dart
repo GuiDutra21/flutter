@@ -15,7 +15,7 @@ class OrderList with ChangeNotifier {
   final String _token;
 
   // Construtor
-  OrderList(this._token, this._items);
+  OrderList([this._token = '', this._items = const []]);
 
   List<Order> get items => [..._items];
 

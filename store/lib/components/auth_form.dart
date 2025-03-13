@@ -66,7 +66,6 @@ class _AuthFormState extends State<AuthForm> {
         await authProvider.login(_authData['Email']!, _authData['Password']!);
       } else {
         await authProvider.signUp(_authData['Email']!, _authData['Password']!);
-        switchAuthMode();
       }
     } on AuthException catch (error) {
       _showErroDialog(error.toString());

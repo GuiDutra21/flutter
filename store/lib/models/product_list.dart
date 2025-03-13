@@ -10,13 +10,13 @@ import 'product.dart';
 
 // Classe 'criada' pelo ChangeNotifyProvider e que contém a lista de produtos
 class ProductList with ChangeNotifier {
-
   // Atributos
   final String _token;
+  final String _userId;
   List<Product> _items = [];
 
   // Construtor
-  ProductList( this._token, this._items);
+  ProductList([this._token = '', this._userId = '', this._items = const []]);
 
   // Getter que retorna uma cópia do atributo _items,
   // sendo que outras classes não conseguem alterar a lista origial
@@ -29,26 +29,35 @@ class ProductList with ChangeNotifier {
   int get itemsLength => _items.length;
 
   // Recupera os produtos do back e armazena na variável _items
-  Future<void> loadProducts() async 
-  {
+  Future<void> loadProducts() async {
     _items.clear(); // Para não ficar gerando produtos duplicados
 
     // Faz a requisição ao Back
     final response = await get(Uri.parse(
-        '${Const.productBaseUrl}.json?auth=$_token')); // OBS: sempre lembrar que no final precisa colocar o .json  
-        // Foi acrescentado o token para validar o acesso aos dados
+        '${Const.productBaseUrl}.json?auth=$_token')); // OBS: sempre lembrar que no final precisa colocar o .json
+    // Foi acrescentado o ?auth=$_token para validar o acesso aos dados
     if (response.body == 'null') return;
-    
-    // Vai acrescentado na variável _items cada produto recuperado na requisição
+
+    // Para recuperar os produtos que o usuário marcou como favorito
+    final favoriteResponse = await get(Uri.parse(
+        '${Const.userFavoritesUrl}/$_userId.json?auth=$_token')); // OBS: sempre lembrar que no final precisa colocar o .json
+
+    Map<String, dynamic> favoriteData = favoriteResponse.body == 'null'
+        ? {}
+        : jsonDecode(favoriteResponse.body);
+
+    // Acrescenta na variável _items cada produto recuperado na requisição
     Map<String, dynamic> data = jsonDecode(response.body);
+
     data.forEach((productId, productData) {
+    final isFavorite = favoriteData[productId] ?? false; // Para atribuir corretamenta o favoito a cada produto
       _items.add(Product(
         id: productId,
         name: productData['name'] ?? '',
         price: productData['price']?.toDouble() ?? 0.0,
         description: productData['description'] ?? '',
         imageUrl: productData['imageUrl'] ?? '',
-        isFavorite: productData['isFavorite'] ?? false,
+        isFavorite: isFavorite
       ));
     });
 
@@ -56,8 +65,7 @@ class ProductList with ChangeNotifier {
   }
 
   // Salva os produtos no back
-  Future<void> saveProduct(Map<String, Object> data) 
-  {
+  Future<void> saveProduct(Map<String, Object> data) {
     bool hasId = data['id'] != null;
 
     final product = Product(
@@ -77,7 +85,6 @@ class ProductList with ChangeNotifier {
 
   // Adiciona um novo produto
   Future<void> addProduct(Product product) async {
-
     // Manda a requisição
     final response = await post(
       // com o await ele espera o retorno para só depois executar o restante
@@ -88,18 +95,18 @@ class ProductList with ChangeNotifier {
         'price': product.price,
         'description': product.description,
         'imageUrl': product.imageUrl,
-        'isFavorite': product.isFavorite,
       }),
     );
 
-    var id = jsonDecode(response.body)['name']; // Pega o id gerado automaticamente pelo back
+    var id = jsonDecode(
+        response.body)['name']; // Pega o id gerado automaticamente pelo back
     _items.add(Product(
-        id: id,
-        name: product.name,
-        price: product.price,
-        description: product.description,
-        imageUrl: product.imageUrl,
-        isFavorite: product.isFavorite));
+      id: id,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      imageUrl: product.imageUrl,
+    ));
 
     notifyListeners(); // Notifica os 'interessados'
   }
@@ -107,7 +114,9 @@ class ProductList with ChangeNotifier {
   // Atualiza o produto
   Future<void> updateProduct(Product product) async {
     int index = _items.indexWhere((p) =>
-        p.id == product.id); // Para capturar o índice desse produto na lista de produtos
+        p.id ==
+        product
+            .id); // Para capturar o índice desse produto na lista de produtos
 
     if (index >= 0) {
       await patch(
@@ -129,8 +138,10 @@ class ProductList with ChangeNotifier {
 
   Future<void> removeProduct(Product product) async {
     int index = _items.indexWhere((p) =>
-        p.id == product.id); // Para capturar o índice desse produto na lista de produtos
-    
+        p.id ==
+        product
+            .id); // Para capturar o índice desse produto na lista de produtos
+
     if (index >= 0) {
       _items.remove(product);
       notifyListeners();
@@ -144,7 +155,8 @@ class ProductList with ChangeNotifier {
       if (response.statusCode >= 400) {
         _items.insert(index, product);
         notifyListeners();
-        throw HttpException( // Necessário para passar a exception
+        throw HttpException(
+            // Necessário para passar a exception
             message: 'Não foi possível excluir o produto',
             statusCode: response.statusCode);
       }

@@ -5,12 +5,10 @@ import 'package:store/models/cart.dart';
 import 'package:store/models/order_list.dart';
 import 'package:store/models/product_list.dart';
 import 'package:store/screens/auth_or_home_screen.dart';
-import 'package:store/screens/auth_screen.dart';
 import 'package:store/screens/cart_screen.dart';
 import 'package:store/screens/order_screen.dart';
 import 'package:store/screens/product_detail_screen.dart';
 import 'package:store/screens/product_form_screen.dart';
-import 'package:store/screens/products_overview_screen.dart';
 import 'package:store/utils/app_routes.dart';
 
 import 'screens/products_screen.dart';
@@ -30,16 +28,20 @@ class MyApp extends StatelessWidget {
       MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (_) => ProductList(), // Cria o ChangeNotifier para a classe que contém o dado
+            create: (_) => Auth(), // Cria o ChangeNotifier para a classe que contém o dado
+          ),
+          ChangeNotifierProxyProvider<Auth, ProductList>( // Quando um provider depende/usa de dados de outro usamos o ProxyProvider
+            create: (_) => ProductList('', []), 
+            update: (context, auth, previous) => 
+            ProductList(auth.token ?? '' , previous?.items ?? []) // Atualiza o token, mas mantem a lista, por isso o previous
+          ),
+          ChangeNotifierProxyProvider<Auth, OrderList>(
+            create: (_) => OrderList('', []),
+            update:(context, auth, previous) => 
+            OrderList(auth.token ?? '', previous?.items ?? []),
           ),
           ChangeNotifierProvider(
             create: (_) => Cart(), 
-          ),
-          ChangeNotifierProvider(
-            create: (_) => OrderList(), 
-          ),
-          ChangeNotifierProvider(
-            create: (_) => Auth(), 
           ),
         ],
 

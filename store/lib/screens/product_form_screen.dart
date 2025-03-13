@@ -98,6 +98,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       // Somente executa essa linha se o try der certo
       Navigator.of(context).pop();
     } catch (error) {
+
        await showDialog(
           context: context,
           builder: (context) => AlertDialog(

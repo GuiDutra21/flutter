@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:store/models/auth.dart';
 import 'package:store/models/product.dart';
 import 'package:store/utils/app_routes.dart';
 
@@ -24,6 +25,7 @@ class ProductGridItem extends StatelessWidget {
     );
 
     final cart = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
 
     return ClipRRect(
       // Para arredondar as bordas
@@ -43,7 +45,7 @@ class ProductGridItem extends StatelessWidget {
                 // Ícone da esquerda
                 IconButton(
                     onPressed: () {
-                      product.toggleFavorite();
+                      product.toggleFavorite(auth.token ?? '');
                     },
                     icon: product.isFavorite
                         ? const Icon(

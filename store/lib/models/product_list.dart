@@ -12,7 +12,11 @@ import 'product.dart';
 class ProductList with ChangeNotifier {
 
   // Atributos
-  final List<Product> _items = [];
+  final String _token;
+  List<Product> _items = [];
+
+  // Construtor
+  ProductList( this._token, this._items);
 
   // Getter que retorna uma cópia do atributo _items,
   // sendo que outras classes não conseguem alterar a lista origial
@@ -31,7 +35,8 @@ class ProductList with ChangeNotifier {
 
     // Faz a requisição ao Back
     final response = await get(Uri.parse(
-        '${Const.productBaseUrl}.json')); // OBS: sempre lembrar que no final precisa colocar o .json
+        '${Const.productBaseUrl}.json?auth=$_token')); // OBS: sempre lembrar que no final precisa colocar o .json  
+        // Foi acrescentado o token para validar o acesso aos dados
     if (response.body == 'null') return;
     
     // Vai acrescentado na variável _items cada produto recuperado na requisição
@@ -77,7 +82,7 @@ class ProductList with ChangeNotifier {
     final response = await post(
       // com o await ele espera o retorno para só depois executar o restante
       Uri.parse(
-          '$Const.url.json'), // OBS: sempre lembrar que no final precisa colocar o .json
+          '${Const.productBaseUrl}.json?auth=$_token'), // OBS: sempre lembrar que no final precisa colocar o .json
       body: jsonEncode({
         'name': product.name,
         'price': product.price,
@@ -87,7 +92,6 @@ class ProductList with ChangeNotifier {
       }),
     );
 
-     
     var id = jsonDecode(response.body)['name']; // Pega o id gerado automaticamente pelo back
     _items.add(Product(
         id: id,
@@ -108,7 +112,7 @@ class ProductList with ChangeNotifier {
     if (index >= 0) {
       await patch(
         Uri.parse(
-            '${Const.productBaseUrl}/${product.id}.json'), // OBS: Nessa URL precisamos passar qual o produto que será alterado
+            '${Const.productBaseUrl}/${product.id}.json?auth=$_token'), // OBS: Nessa URL precisamos passar qual o produto que será alterado
         body: jsonEncode({
           'name': product.name,
           'price': product.price,
@@ -133,7 +137,7 @@ class ProductList with ChangeNotifier {
 
       final response = await delete(
         Uri.parse(
-            '${Const.productBaseUrl}/${product.id}.json'), // OBS: Nessa URL precisamos passar qual o produto que será removido
+            '${Const.productBaseUrl}/${product.id}.json?auth=$_token'), // OBS: Nessa URL precisamos passar qual o produto que será removido
       );
 
       // Se der errado reinsere o produto na variável _items e chama a exception

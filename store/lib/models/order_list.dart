@@ -7,15 +7,16 @@ import '../constantes/const.dart';
 import 'cart.dart';
 import 'order.dart';
 
-// Classe que representa a lista com todos os carrinhos ja criados
+// Classe que representa a lista com todos os carrinhos já criados
 class OrderList with ChangeNotifier {
 
   // Atributos
   List<Order> _items = [];
   final String _token;
+  final String _userId;
 
   // Construtor
-  OrderList([this._token = '', this._items = const []]);
+  OrderList([this._token = '', this._userId = '', this._items = const []]);
 
   List<Order> get items => [..._items];
 
@@ -26,7 +27,7 @@ class OrderList with ChangeNotifier {
       final date = DateTime.now();
       final response = await post(
         Uri.parse(
-            '${Const.orderBaseUrl}.json?auth=$_token'), // OBS: sempre lembrar que no final precisa colocar o .json
+            '${Const.orderBaseUrl}/$_userId.json?auth=$_token'), // OBS: sempre lembrar que precisa colocar o .json
         body: jsonEncode({
           'total': cart.totalAmount,
           'date': date.toIso8601String(),
@@ -58,7 +59,7 @@ class OrderList with ChangeNotifier {
   Future<void> loadOrders() async {
     List<Order> items = []; // Para não ficar gerando pedidos duplicados
 
-    final response = await get(Uri.parse('${Const.orderBaseUrl}.json?auth=$_token'));
+    final response = await get(Uri.parse('${Const.orderBaseUrl}/$_userId.json?auth=$_token'));
 
     if (response.body == 'null') return;
 

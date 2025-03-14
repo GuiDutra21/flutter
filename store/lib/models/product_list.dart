@@ -34,13 +34,13 @@ class ProductList with ChangeNotifier {
 
     // Faz a requisição ao Back
     final response = await get(Uri.parse(
-        '${Const.productBaseUrl}.json?auth=$_token')); // OBS: sempre lembrar que no final precisa colocar o .json
+        '${Const.productBaseUrl}.json?auth=$_token')); // OBS: sempre lembrar que precisa colocar o .json
     // Foi acrescentado o ?auth=$_token para validar o acesso aos dados
     if (response.body == 'null') return;
 
     // Para recuperar os produtos que o usuário marcou como favorito
     final favoriteResponse = await get(Uri.parse(
-        '${Const.userFavoritesUrl}/$_userId.json?auth=$_token')); // OBS: sempre lembrar que no final precisa colocar o .json
+        '${Const.userFavoritesUrl}/$_userId.json?auth=$_token')); // OBS: sempre lembrar que precisa colocar o .json
 
     Map<String, dynamic> favoriteData = favoriteResponse.body == 'null'
         ? {}
@@ -89,7 +89,7 @@ class ProductList with ChangeNotifier {
     final response = await post(
       // com o await ele espera o retorno para só depois executar o restante
       Uri.parse(
-          '${Const.productBaseUrl}.json?auth=$_token'), // OBS: sempre lembrar que no final precisa colocar o .json
+          '${Const.productBaseUrl}.json?auth=$_token'), // OBS: sempre lembrar que precisa colocar o .json
       body: jsonEncode({
         'name': product.name,
         'price': product.price,

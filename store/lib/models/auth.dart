@@ -66,8 +66,6 @@ class Auth with ChangeNotifier {
         'expiryDate': _expiryDate!.toIso8601String(),
       });
 
-      final userData = await Shareprefe.getMap('userData');
-      
       _autoLogout();
       notifyListeners();
     }

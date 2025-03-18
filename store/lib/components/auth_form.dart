@@ -13,7 +13,34 @@ class AuthForm extends StatefulWidget {
   State<AuthForm> createState() => _AuthFormState();
 }
 
-class _AuthFormState extends State<AuthForm> {
+class _AuthFormState extends State<AuthForm> with SingleTickerProviderStateMixin {
+
+  AnimationController? _animationController;
+  Animation<Size>? _heightAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+        vsync:
+            this, // A prórpria classe (_AuthFormState) é passada como referência de um TickerProvider, possibilitado pelo mixin
+        duration: const Duration(milliseconds: 350));
+
+    _heightAnimation = Tween(
+      begin: const Size(double.infinity, 330),
+      end: const Size(double.infinity, 400),
+    ).animate(CurvedAnimation(
+      parent: _animationController!,
+      curve: Curves.linear, // O tipo da animação
+    ));
+    _heightAnimation?.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController?.dispose();
+  }
 
   var _passWordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
@@ -24,12 +51,20 @@ class _AuthFormState extends State<AuthForm> {
 
   Map<String, String> _authData = {'Email': '', 'Password': ''};
 
-  bool isLogin() => _authMode == AuthMode.login ? true : false;
-  bool isSignUp() => _authMode == AuthMode.signUp ? true : false;
+  bool isLogin() => _authMode == AuthMode.login;
+  bool isSignUp() => _authMode == AuthMode.signUp;
 
   void switchAuthMode() {
     setState(() {
-      isLogin() ? _authMode = AuthMode.signUp : _authMode = AuthMode.login;
+      isLogin()
+          ? {
+              _authMode = AuthMode.signUp,
+              _animationController!.forward(), // Para controlar a direção da animação
+            }
+          : {
+              _authMode = AuthMode.login,
+              _animationController!.reverse(), // Para controlar a direção da animação
+            };
     });
   }
 
@@ -49,14 +84,14 @@ class _AuthFormState extends State<AuthForm> {
 
   // Função que faz a chamada da subimissão dos dados do login/signUp
   Future<void> _submit() async {
-
-    final isValid = _formKey.currentState!.validate(); // Percorre todos os campos do Form e executa os validator definidos
+    final isValid = _formKey.currentState!
+        .validate(); // Percorre todos os campos do Form e executa os validator definidos
 
     if (!isValid) return;
 
     _formKey.currentState!
         .save(); // Chama o onSaved de cada TextFormField, preenchendo _authData com os valores digitados
-    
+
     var authProvider = Provider.of<Auth>(context, listen: false);
 
     setState(() => _isLoading = true);
@@ -69,9 +104,7 @@ class _AuthFormState extends State<AuthForm> {
       }
     } on AuthException catch (error) {
       _showErroDialog(error.toString());
-
-    } catch (error)
-    {
+    } catch (error) {
       _showErroDialog('Ocorreu um erro inesperado !');
     }
 
@@ -95,7 +128,7 @@ class _AuthFormState extends State<AuthForm> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: Container(
           padding: const EdgeInsets.all(16),
-          height: isLogin() ? 330 : 400,
+          height: _heightAnimation?.value.height ?? (isLogin() ? 330 : 400),
           width: mediaQuery.size.width * 0.8,
 
           // Formulário propriamente dito
@@ -103,7 +136,6 @@ class _AuthFormState extends State<AuthForm> {
             key: _formKey, // Para savar as informações
             child: Column(
               children: [
-
                 TextFormField(
                   decoration: const InputDecoration(labelText: "E-mail"),
                   keyboardType: TextInputType.emailAddress,
@@ -116,7 +148,6 @@ class _AuthFormState extends State<AuthForm> {
                     return null;
                   },
                 ),
-                
                 TextFormField(
                   decoration: const InputDecoration(labelText: "Password"),
                   keyboardType: TextInputType.emailAddress,
@@ -129,8 +160,7 @@ class _AuthFormState extends State<AuthForm> {
                       return 'Informe uma senha com mais de 3 caracteres';
                     }
                     return null;
-                  }
-                  ,
+                  },
                 ),
                 if (isSignUp())
                   TextFormField(

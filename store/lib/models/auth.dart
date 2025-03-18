@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:store/data/share_prefe.dart';
 import 'package:store/exceptions/auth_exception.dart';
 
 // Classe 'criada' pelo ChangeNotifyProvider e que contém os métodos de autenticação
@@ -56,8 +57,18 @@ class Auth with ChangeNotifier {
       _userId = body['localId'];
       _expiryDate =
           DateTime.now().add(Duration(seconds: int.parse(body['expiresIn'])));
-      _autoLogout();
 
+      // Armazena os dados no celular para o login automático
+      Shareprefe.saveMap('userData', {
+        'token': _token,
+        'email': _email,
+        'userId': _userId,
+        'expiryDate': _expiryDate!.toIso8601String(),
+      });
+
+      final userData = await Shareprefe.getMap('userData');
+      
+      _autoLogout();
       notifyListeners();
     }
   }
@@ -70,13 +81,33 @@ class Auth with ChangeNotifier {
     return _authenticate(email, password, 'signInWithPassword');
   }
 
+  // Função do login automático
+  Future<void> tryAutoLogin() async
+  {
+    if(isAuth) return;
+
+    final userData = await Shareprefe.getMap('userData');
+    if(userData.isEmpty) return;
+
+    final expiryDate = DateTime.parse(userData['expiryDate']);
+    if (expiryDate.isBefore(DateTime.now())) return;
+
+    _token = userData['token'];  
+    _email = userData['email'];  
+    _userId = userData['userId'];
+    _expiryDate = expiryDate;
+
+    _autoLogout();
+    notifyListeners();
+  }
+
   void logout() {
     _token = null;
     _email = null;
     _userId = null;
     _expiryDate = null;
     _clearLogoutTimer();
-    notifyListeners();
+    Shareprefe.remove('userData').then((value) =>  notifyListeners());
   }
 
   void _clearLogoutTimer() {

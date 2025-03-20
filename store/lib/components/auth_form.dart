@@ -13,10 +13,14 @@ class AuthForm extends StatefulWidget {
   State<AuthForm> createState() => _AuthFormState();
 }
 
-class _AuthFormState extends State<AuthForm> with SingleTickerProviderStateMixin {
+class _AuthFormState extends State<AuthForm>
+    with SingleTickerProviderStateMixin {
+  var _passWordController = TextEditingController();
+  var _formKey = GlobalKey<FormState>();
 
   AnimationController? _animationController;
-  Animation<Size>? _heightAnimation;
+  Animation<double>? _opacityAnimation;
+  Animation<Offset>? _slideAnimation;
 
   @override
   void initState() {
@@ -24,16 +28,24 @@ class _AuthFormState extends State<AuthForm> with SingleTickerProviderStateMixin
     _animationController = AnimationController(
         vsync:
             this, // A prórpria classe (_AuthFormState) é passada como referência de um TickerProvider, possibilitado pelo mixin
-        duration: const Duration(milliseconds: 350));
+        duration: const Duration(milliseconds: 500));
 
-    _heightAnimation = Tween(
-      begin: const Size(double.infinity, 330),
-      end: const Size(double.infinity, 400),
+    _opacityAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
     ).animate(CurvedAnimation(
       parent: _animationController!,
       curve: Curves.linear, // O tipo da animação
     ));
-    _heightAnimation?.addListener(() => setState(() {}));
+    // _opacityAnimation?.addListener(() => setState(() {}));
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 1.5),
+      end: const Offset(0, 0),
+    ).animate(CurvedAnimation(
+      parent: _animationController!,
+      curve: Curves.linear, // O tipo da animação
+    ));
   }
 
   @override
@@ -41,9 +53,6 @@ class _AuthFormState extends State<AuthForm> with SingleTickerProviderStateMixin
     super.dispose();
     _animationController?.dispose();
   }
-
-  var _passWordController = TextEditingController();
-  var _formKey = GlobalKey<FormState>();
 
   bool _isLoading = false;
 
@@ -59,11 +68,13 @@ class _AuthFormState extends State<AuthForm> with SingleTickerProviderStateMixin
       isLogin()
           ? {
               _authMode = AuthMode.signUp,
-              _animationController!.forward(), // Para controlar a direção da animação
+              _animationController!
+                  .forward(), // Para controlar a direção da animação
             }
           : {
               _authMode = AuthMode.login,
-              _animationController!.reverse(), // Para controlar a direção da animação
+              _animationController!
+                  .reverse(), // Para controlar a direção da animação
             };
     });
   }
@@ -126,9 +137,12 @@ class _AuthFormState extends State<AuthForm> with SingleTickerProviderStateMixin
         // margin: const EdgeInsets.only(top:50),
         elevation: 8,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeIn,
           padding: const EdgeInsets.all(16),
-          height: _heightAnimation?.value.height ?? (isLogin() ? 330 : 400),
+          height: isLogin() ? 330 : 400,
+          // height:  _heightAnimation!.value.height,
           width: mediaQuery.size.width * 0.8,
 
           // Formulário propriamente dito
@@ -148,6 +162,7 @@ class _AuthFormState extends State<AuthForm> with SingleTickerProviderStateMixin
                     return null;
                   },
                 ),
+
                 TextFormField(
                   decoration: const InputDecoration(labelText: "Password"),
                   keyboardType: TextInputType.emailAddress,
@@ -162,20 +177,35 @@ class _AuthFormState extends State<AuthForm> with SingleTickerProviderStateMixin
                     return null;
                   },
                 ),
-                if (isSignUp())
-                  TextFormField(
-                    decoration:
-                        const InputDecoration(labelText: "Confirmar senha"),
-                    keyboardType: TextInputType.emailAddress,
-                    obscureText: true,
-                    validator: (_confirmed) {
-                      final confirmed = _confirmed ?? '';
-                      if (confirmed != _passWordController.text) {
-                        return 'As senhas informadas não coincidem !';
-                      }
-                      return null;
-                    },
+
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
+                  constraints: BoxConstraints(
+                      minHeight: isLogin() ? 0 : 60,
+                      maxHeight: isLogin() ? 0 : 120),
+                  child: FadeTransition(
+                    opacity: _opacityAnimation!,
+                    child: SlideTransition(
+                      position: _slideAnimation!,
+                      child: isLogin()
+                          ? const SizedBox()
+                          : TextFormField(
+                              decoration: const InputDecoration(
+                                  labelText: "Confirmar senha"),
+                              keyboardType: TextInputType.emailAddress,
+                              obscureText: true,
+                              validator: (_confirmed) {
+                                final confirmed = _confirmed ?? '';
+                                if (confirmed != _passWordController.text) {
+                                  return 'As senhas informadas não coincidem !';
+                                }
+                                return null;
+                              },
+                            ),
+                    ),
                   ),
+                ),
+                
                 const Spacer(flex: 3),
                 _isLoading
                     ? const CircularProgressIndicator()

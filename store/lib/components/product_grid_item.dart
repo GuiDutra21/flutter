@@ -120,23 +120,33 @@ class ProductGridItem extends StatelessWidget {
             Navigator.of(context)
                 .pushNamed(AppRoutes.productDetail, arguments: product);
           },
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
-
-            // Bolinha de carregamento da imagem
-            loadingBuilder: (context, child, loadingProgress) {
-              return loadingProgress == null
-                  ? child
-                  : const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.green,
-                        backgroundColor: Colors.black,
-                        strokeWidth: 7,
-                      ),
-                    );
-            },
+          // Animação para aparecer uma imagem Default enquanto a real não carrega, mas ta com erro
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+              placeholder:
+                  const AssetImage("assets/images/product-placeholder.png"),
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
+          // child: Image.network(
+          //   product.imageUrl,
+          //   fit: BoxFit.cover,
+
+          //   // Bolinha de carregamento da imagem
+          //   loadingBuilder: (context, child, loadingProgress) {
+          //     return loadingProgress == null
+          //         ? child
+          //         : const Center(
+          //             child: CircularProgressIndicator(
+          //               color: Colors.green,
+          //               backgroundColor: Colors.black,
+          //               strokeWidth: 7,
+          //             ),
+          //           );
+          //   },
+          // ),
         ),
       ),
     );

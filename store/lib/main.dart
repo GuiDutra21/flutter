@@ -10,6 +10,7 @@ import 'package:store/screens/order_screen.dart';
 import 'package:store/screens/product_detail_screen.dart';
 import 'package:store/screens/product_form_screen.dart';
 import 'package:store/utils/app_routes.dart';
+import 'package:store/utils/custom_route.dart';
 
 import 'screens/products_screen.dart';
 
@@ -74,6 +75,14 @@ class MyApp extends StatelessWidget {
         
             fontFamily: 'Lato',
             useMaterial3: true,
+
+            // Define a animação da transição entre as telas
+            pageTransitionsTheme: PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android : CustomPageTransitionBuilder(),
+                TargetPlatform.iOS : CustomPageTransitionBuilder(),
+              }
+            )
           ),
           routes: 
           { 

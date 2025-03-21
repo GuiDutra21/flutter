@@ -128,6 +128,8 @@ class ProductGridItem extends StatelessWidget {
                   const AssetImage("assets/images/product-placeholder.png"),
               image: NetworkImage(product.imageUrl),
               fit: BoxFit.cover,
+              // fadeInDuration: const Duration(milliseconds: 500),
+              // fadeOutDuration: const Duration(milliseconds: 500),
             ),
           ),
           // child: Image.network(

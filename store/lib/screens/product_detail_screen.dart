@@ -21,6 +21,7 @@ class ProductDetailScreen extends StatelessWidget {
         // Se necessário deixa a tela rolável
         slivers: [
           SliverAppBar(
+            // centerTitle: true,
             // foregroundColor: Colors.blue,
 
             expandedHeight: 300,
@@ -45,6 +46,7 @@ class ProductDetailScreen extends StatelessWidget {
             ),
 
             flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
               title: Text(
                 product.name,
                 style: const TextStyle(color: Colors.white),

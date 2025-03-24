@@ -13,12 +13,30 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+   
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Great Places',
-      theme: ThemeData( // TODO: arrumar o tema ainda
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+
+      theme: ThemeData(
+        // Tema principal
+         colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.indigo,
+          secondary: Colors.amber,
+        ),
+
+        // Tema do appBar
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.indigo,
+          centerTitle: true,
+        ),
+
+        // Cor de fundo
+        scaffoldBackgroundColor: const Color.fromARGB(233, 255, 248, 225),
+
+        //  visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      
       routes: {
         AppRoutes.placesForm : (context) => PlaceFormScreen()
       },

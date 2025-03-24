@@ -7,13 +7,11 @@ import '../models/cart.dart';
 
 // Tela de detalhe das compras, quando clicamos no ícone do carrinho de compras
 class CartScreen extends StatelessWidget {
-
   // Construtor
   const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
     // Providers
     var cart = Provider.of<Cart>(context);
     var items = cart.items.values.toList(); // lista de items do carrinho
@@ -32,30 +30,36 @@ class CartScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Total", style: TextStyle(fontSize: 18),),
+                  const Padding( // Apenas para dar um espaço entre o Total e o valor
+                      padding: EdgeInsets.only(right: 16),
+                      child: Text(
+                        "Total",
+                        style: TextStyle(fontSize: 18),
+                      )),
 
-                  const SizedBox(
-                      width:
-                          16), // Apenas para dar um espaço entre o Total e o valor
-
-                  Chip(
-                    backgroundColor: Colors.blue[400],
-                    label: Text( 
-                      "R\$ ${cart.totalAmount.toStringAsFixed(2)}",
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
-                      
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(20), // Define o raio da borda
-                      side: const BorderSide(
-                        color: Colors.transparent, // Torna a borda invisível
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Chip(
+                        backgroundColor: Colors.blue[400],
+                        label: Text(
+                          "R\$ ${cart.totalAmount.toStringAsFixed(2)}",
+                          style:
+                              const TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(20), // Define o raio da borda
+                          side: const BorderSide(
+                            color: Colors.transparent, // Torna a borda invisível
+                          ),
+                        ),
                       ),
                     ),
                   ),
 
-                  // Apenas para fazer o valor se aproximar do Total
-                  const Spacer(),
+                  // // Apenas para fazer o valor se aproximar do Total
+                  // const Spacer(),
 
                   BuyButton(cart: cart),
                 ],
@@ -77,7 +81,6 @@ class CartScreen extends StatelessWidget {
 
 // Classe que representa o botao de comprar no canto superioir direito
 class BuyButton extends StatefulWidget {
-
   // Atributo
   final Cart cart;
 
@@ -92,19 +95,26 @@ class BuyButton extends StatefulWidget {
 }
 
 class _BuyButtonState extends State<BuyButton> {
-
   bool isLoading = false;
-  
+
   @override
   Widget build(BuildContext context) {
-    return isLoading ? const CircularProgressIndicator() : TextButton(
-      onPressed: widget.cart.items.isEmpty ? null :  () async {
-        setState(() => isLoading = true);
-        await Provider.of<OrderList>(context, listen: false).addOrder(widget.cart);
-        setState(() => isLoading = false);
-        widget.cart.clear();
-      },
-      child: const Text("COMPRAR", style: TextStyle(fontSize: 15),),
-    );
+    return isLoading
+        ? const CircularProgressIndicator()
+        : TextButton(
+            onPressed: widget.cart.items.isEmpty
+                ? null
+                : () async {
+                    setState(() => isLoading = true);
+                    await Provider.of<OrderList>(context, listen: false)
+                        .addOrder(widget.cart);
+                    setState(() => isLoading = false);
+                    widget.cart.clear();
+                  },
+            child: const Text(
+              "COMPRAR",
+              style: TextStyle(fontSize: 15),
+            ),
+          );
   }
 }

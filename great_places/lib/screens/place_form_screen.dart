@@ -1,5 +1,8 @@
+import 'dart:io';
+import 'package:great_places/providers/great_places.dart';
 import 'package:flutter/material.dart';
 import 'package:great_places/components/image_input.dart';
+import 'package:provider/provider.dart';
 
 // Tela de formulário dos lugares
 class PlaceFormScreen extends StatefulWidget {
@@ -11,8 +14,19 @@ class PlaceFormScreen extends StatefulWidget {
 
 class _PlaceFormScreenState extends State<PlaceFormScreen> {
   final textController = TextEditingController();
+  File? _pickedImage;
 
-  void submitForm() {}
+  void _selectImage(File pickedImage)
+  {
+    _pickedImage = pickedImage;
+  }
+  void submitForm() {
+    if(textController.text.isEmpty || _pickedImage == null )
+      return;
+
+    Provider.of<GreatPlaces>(context, listen: false).addPlace(textController.text, _pickedImage!);
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +55,7 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    ImageInput(),
+                    ImageInput(_selectImage),
                   ],
                 ),
               ),

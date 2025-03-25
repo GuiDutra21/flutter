@@ -2,16 +2,20 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 // Componente que representa a imagem e o ícone para tirar foto
 class ImageInput extends StatefulWidget {
-  const ImageInput({super.key});
+
+  final Function(File) onSelectImage;
+  const ImageInput(this.onSelectImage,{super.key});
 
   @override
   State<StatefulWidget> createState() => _ImageInputState();
 }
 
-class _ImageInputState extends State<StatefulWidget> {
+class _ImageInputState extends State<ImageInput> {
 
   File? _storedImage;
 
@@ -19,10 +23,17 @@ class _ImageInputState extends State<StatefulWidget> {
   {
     final ImagePicker picker = ImagePicker();
     XFile imageFile =  await picker.pickImage(source: ImageSource.camera, maxHeight: 600) as XFile;
-
+    
     setState(() {
       _storedImage = File(imageFile.path);
     });
+
+
+    final appDir = await getApplicationDocumentsDirectory(); // Pega o diretorio do app
+    String fileName = basename(_storedImage!.path); // Pega o nome da imagem
+    final savedImage = await _storedImage!.copy('${appDir.path}/$fileName'); // Copia a imagem para o diretório de documentos do app
+
+    widget.onSelectImage(savedImage); // Passa para a callBack
   }
 
   @override
@@ -58,14 +69,3 @@ class _ImageInputState extends State<StatefulWidget> {
     );
   }
 }
-  // _takePicture() async {
-  //   final ImagePicker _picker = ImagePicker();
-  //   XFile imageFile = await _picker.pickImage(
-  //     source: ImageSource.camera,
-  //     maxWidth: 600,
-  //   ) as XFile;
- 
-  //   setState(() {
-  //     _storedImage = File(imageFile.path);
-  //   });
-  // }

@@ -29,6 +29,7 @@ class _ImageInputState extends State<ImageInput> {
     });
 
 
+    // OBS: As bibliotecas path e path_provider são necessárias para usarmos essas funções
     final appDir = await getApplicationDocumentsDirectory(); // Pega o diretorio do app
     String fileName = basename(_storedImage!.path); // Pega o nome da imagem
     final savedImage = await _storedImage!.copy('${appDir.path}/$fileName'); // Copia a imagem para o diretório de documentos do app

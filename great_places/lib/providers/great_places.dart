@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:great_places/models/place.dart';
+import 'package:great_places/utils/db_utils.dart';
 
 // Provider que contem a lista dos lugares
 class GreatPlaces with ChangeNotifier {
@@ -29,6 +30,13 @@ class GreatPlaces with ChangeNotifier {
     );
 
     _items.add(newPlace);
+    DBUtils.insert(
+      'PLACES', {
+        'id' : newPlace.id,
+        'title' : newPlace.title,
+        'image' : newPlace.image.path, // Passa apenas o caminho da imagem, pois ela será salva em uma pasta da aplicação
+      }
+    );
     notifyListeners();
   }
 }

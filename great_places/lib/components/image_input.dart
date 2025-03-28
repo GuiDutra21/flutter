@@ -58,7 +58,7 @@ class _ImageInputState extends State<ImageInput> {
           : Text("Nenhuma imagem!"),
         ),
         Spacer(flex: 1,), // Para centralizar o butao no lado direito
-        TextButton.icon(
+        ElevatedButton.icon(
           onPressed: _takePhoto,
           label: Text("Tirar foto"),
           icon: Icon(

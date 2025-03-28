@@ -39,4 +39,17 @@ class GreatPlaces with ChangeNotifier {
     );
     notifyListeners();
   }
+
+  Future<void> loadProducts() async
+  {
+    final DBPlaces = await DBUtils.select('PLACES');
+    _items = DBPlaces.map((items){
+      return Place(id: items['id'] as String, // Necessita do casting devido ao argumento Object no retorno da função DBUtils.select
+      title:  items['title']as String,
+      image: File(items['image'] as String),
+      location: null);
+    }).toList();
+
+    notifyListeners();
+  }
 }

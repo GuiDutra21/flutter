@@ -23,8 +23,13 @@ class DBUtils {
 
   static Future<void> insert (String table, Map <String, Object> data) async
   { 
-    final db = await DBUtils.database(); // Cria o banco de dados
+    final db = await DBUtils.database(); // Captura a instância do banco de dados
     await db.insert(table, data, conflictAlgorithm: ConflictAlgorithm.replace); // Insere no banco
   }
 
+  static Future<List<Map<String, Object?>>> select(String table) async
+  {
+    final db = await DBUtils.database(); // Captura a instância do banco de dados
+    return db.query(table);
+  }
 }

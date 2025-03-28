@@ -20,23 +20,42 @@ class PlacesListScreen extends StatelessWidget {
         ],
         centerTitle: true,
       ),
-      body: Consumer<GreatPlaces>(
-        child: const Center(child: Text("Nenhum local cadastrado!")),
-        builder: (context, greatPlaces, child) =>
-                greatPlaces.itemsCount == 0
-                    ? child!
-                    : ListView.builder(
-                      itemCount: greatPlaces.itemsCount,
-                      itemBuilder:
-                          (context, index) => ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: FileImage(
-                                greatPlaces.itemByIndex(index).image,
-                              ),
-                            ),
-                            title: Text(greatPlaces.itemByIndex(index).title),
+      body: FutureBuilder(
+        future: Provider.of<GreatPlaces>(context, listen: false).loadProducts(), // Carrega os dados sem reescutar mudanças no provider
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Houve algum erro no carregamento!'));
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting)
+          {
+            return const Center(child: CircularProgressIndicator());
+          }
+          else
+          {
+            return Consumer<GreatPlaces>( // Cuida da atualização dos dados na interface sem recarregar o FutureBuilder
+              child: const Center(child: Text("Nenhum local cadastrado!")),
+              builder:
+                  (context, greatPlaces, child) =>
+                      greatPlaces.itemsCount == 0
+                          ? child!
+                          : ListView.builder(
+                            itemCount: greatPlaces.itemsCount,
+                            itemBuilder:
+                                (context, index) => ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundImage: FileImage(
+                                      greatPlaces.itemByIndex(index).image,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    greatPlaces.itemByIndex(index).title,
+                                  ),
+                                ),
                           ),
-                    ),
+            );
+          }
+        },
       ),
     );
   }

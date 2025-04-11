@@ -3,6 +3,7 @@ import 'package:great_places/screens/map_screen.dart';
 import 'package:great_places/utils/location_utils.dart';
 import 'package:location/location.dart';
 
+// Componente que mostra o mapa e os botões referente a localização
 class LocationInput extends StatefulWidget {
   const LocationInput({super.key});
 
@@ -14,6 +15,7 @@ class _LocationInputState extends State<LocationInput> {
   String? _previewImageUrl;
   bool locationIsLoading = false;
 
+  // Para pegar a localização atual da pessoa
   Future<void> _getUserCurrentLocation() async {
     setState(() {
       locationIsLoading = true;
@@ -33,14 +35,30 @@ class _LocationInputState extends State<LocationInput> {
     // print(_previewImageUrl);
   }
 
-  Future<void> _selectOnMap() async
-  {
-    final selectedLocation = await Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => MapScreen())
+  // Para selecionar a localização no mapa
+  Future<void> _selectOnMap() async {
+    final selectedLocation = await Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => MapScreen()));
+
+    if (selectedLocation == null) {
+      return;
+    }
+
+    setState(() {
+      locationIsLoading = true;
+    });
+
+    final staticMapImageUrl = LocationUtils.generateLocationPreviewImage(
+      latitude: selectedLocation.latitude!,
+      longitude: selectedLocation.longitude!,
     );
 
-    if(selectedLocation == null)
-      return;
+    setState(() {
+      _previewImageUrl = staticMapImageUrl;
+      locationIsLoading = false;
+    });
+    // print(selectedLocation);
   }
 
   @override
@@ -49,14 +67,12 @@ class _LocationInputState extends State<LocationInput> {
 
     if (locationIsLoading) {
       previewImage = const CircularProgressIndicator();
-
     } else if (_previewImageUrl != null) {
       previewImage = Image.network(
         _previewImageUrl!,
         fit: BoxFit.cover,
         width: double.infinity,
       );
-
     } else {
       previewImage = const Text('Nenhuma localização selecionada');
     }

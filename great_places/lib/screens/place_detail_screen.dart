@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:great_places/models/place.dart';
 import 'package:great_places/screens/map_screen.dart';
 
+// Tela de detalhes dos lugares
 class PlaceDetailScreen extends StatelessWidget {
   const PlaceDetailScreen({super.key});
 

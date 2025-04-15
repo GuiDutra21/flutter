@@ -39,7 +39,6 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
 
   void submitForm() {
     if (!_isvalidForm()) return;
-    print(_isvalidForm());
 
     Provider.of<GreatPlaces>(
       context,

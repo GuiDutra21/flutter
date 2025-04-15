@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 // Classe modelo que representa um local
 class Place {
   final String id;
@@ -25,4 +27,9 @@ class PlaceLocation {
     required this.longitude,
     this.address,
   });
+
+  LatLng toLatLng()
+  {
+    return LatLng(latitude, longitude);
+  }
 }

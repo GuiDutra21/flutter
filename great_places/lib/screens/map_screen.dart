@@ -6,8 +6,10 @@ import 'package:great_places/models/place.dart';
 class MapScreen extends StatefulWidget {
   final PlaceLocation initialLocation;
   final bool isReadOnly;
+  final String? placeTitle; 
 
   const MapScreen({
+    this.placeTitle,
     this.initialLocation = const PlaceLocation(
       // New York
       latitude: 40.758896,
@@ -22,31 +24,31 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  LatLng? _pickedPosition;
+  LatLng? _pickedLocation;
+
 
   void _selectPosition(LatLng position) {
     setState(() {
-      _pickedPosition = position;
+      _pickedLocation = position;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Selecione a localização"),
+        title: widget.isReadOnly ? Text("Localização de ${widget.placeTitle}") : Text("Selecione a localização"),
         actions: [
           if (!widget.isReadOnly)
             IconButton(
               onPressed:
-                  _pickedPosition == null
+                  _pickedLocation == null
                       ? null
-                      : () => Navigator.of(context).pop(_pickedPosition),
+                      : () => Navigator.of(context).pop(_pickedLocation), // Retorna a lolcalização selecionada
               icon: Icon(Icons.check),
             ),
         ],
       ),
-      
+
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
           target: LatLng(
@@ -56,10 +58,10 @@ class _MapScreenState extends State<MapScreen> {
           zoom: 13,
         ),
         markers:
-            _pickedPosition == null
+            (_pickedLocation == null && !widget.isReadOnly)
                 ? {}
                 : {
-                  Marker(markerId: MarkerId('p1'), position: _pickedPosition!),
+                  Marker(markerId: MarkerId('p1'), position: _pickedLocation ?? widget.initialLocation.toLatLng()),
                 },
         onTap: widget.isReadOnly ? null : _selectPosition,
       ),

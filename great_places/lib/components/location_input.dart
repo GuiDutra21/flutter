@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:great_places/screens/map_screen.dart';
 import 'package:great_places/utils/location_utils.dart';
 import 'package:location/location.dart';
 
 // Componente que mostra o mapa e os botões referente a localização
 class LocationInput extends StatefulWidget {
-  const LocationInput({super.key});
+  final void Function(LatLng) onSelectPosition; // callback function
+
+  const LocationInput({required this.onSelectPosition, super.key});
 
   @override
   State<LocationInput> createState() => _LocationInputState();
@@ -15,24 +18,39 @@ class _LocationInputState extends State<LocationInput> {
   String? _previewImageUrl;
   bool locationIsLoading = false;
 
-  // Para pegar a localização atual da pessoa
-  Future<void> _getUserCurrentLocation() async {
-    setState(() {
-      locationIsLoading = true;
-    });
 
-    final locData = await Location().getLocation();
+  void _showPreview(double latitude, double longitude)
+  {
     final staticMapImageUrl = LocationUtils.generateLocationPreviewImage(
-      latitude: locData.latitude!,
-      longitude: locData.longitude!,
+      latitude: latitude,
+      longitude: longitude,
     );
 
     setState(() {
       _previewImageUrl = staticMapImageUrl;
       locationIsLoading = false;
     });
+  }
 
-    // print(_previewImageUrl);
+  // Para pegar a localização atual da pessoa
+  Future<void> _getUserCurrentLocation() async {
+    
+    try
+    {
+
+    setState(() {
+      locationIsLoading = true;
+    });
+
+    final locData = await Location().getLocation();
+    _showPreview(locData.latitude!, locData.longitude!);
+
+    widget.onSelectPosition(LatLng(locData.latitude!, locData.longitude!));
+    }
+    catch (e)
+    {
+      return;
+    }
   }
 
   // Para selecionar a localização no mapa
@@ -49,16 +67,10 @@ class _LocationInputState extends State<LocationInput> {
       locationIsLoading = true;
     });
 
-    final staticMapImageUrl = LocationUtils.generateLocationPreviewImage(
-      latitude: selectedLocation.latitude!,
-      longitude: selectedLocation.longitude!,
-    );
+    _showPreview(selectedLocation.latitude, selectedLocation.longitude);
 
-    setState(() {
-      _previewImageUrl = staticMapImageUrl;
-      locationIsLoading = false;
-    });
     // print(selectedLocation);
+    widget.onSelectPosition(selectedLocation);
   }
 
   @override

@@ -14,7 +14,7 @@ class DBUtils {
       path.join(dbPath, 'PLACES.db'), // Local onde será salvo os dados -> dentro do dispositivo que roda o app
       onCreate: (db, version) { // Apenas se o banco ainda não existir, caso exista a função retorna a instância já salva
         db.execute(
-        'CREATE TABLE PLACES (id TEXT PRIMARY KEY, title TEXT, image TEXT)'
+        'CREATE TABLE PLACES (id TEXT PRIMARY KEY, title TEXT, image TEXT, latitude REAL, longitude REAL, address TEXT)'
         );
       },
       version: 1,

@@ -51,6 +51,13 @@ class PlacesListScreen extends StatelessWidget {
                                   title: Text(
                                     greatPlaces.itemByIndex(index).title,
                                   ),
+                                  subtitle: Text(greatPlaces.itemByIndex(index).location?.address ?? '',style: TextStyle(color: Colors.black54),),
+                                  onTap: () {
+                                   Navigator.of(context).pushNamed(
+                                    AppRoutes.placesDetail,
+                                    arguments: greatPlaces.itemByIndex(index)
+                                   );
+                                  },
                                 ),
                           ),
             );

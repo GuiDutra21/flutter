@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:great_places/components/location_input.dart';
 import 'package:great_places/providers/great_places.dart';
 import 'package:flutter/material.dart';
@@ -16,16 +17,34 @@ class PlaceFormScreen extends StatefulWidget {
 class _PlaceFormScreenState extends State<PlaceFormScreen> {
   final textController = TextEditingController();
   File? _pickedImage;
+  LatLng? _pickedPosition;
 
-  void _selectImage(File pickedImage)
-  {
-    _pickedImage = pickedImage;
+  void _selectImage(File pickedImage) {
+    setState(() {
+      _pickedImage = pickedImage;
+    });
   }
-  void submitForm() {
-    if(textController.text.isEmpty || _pickedImage == null )
-      return;
+  
+  void _selectPosition(LatLng pickedPosition) {
+    setState(() {
+      _pickedPosition = pickedPosition;
+    });
+  }
 
-    Provider.of<GreatPlaces>(context, listen: false).addPlace(textController.text, _pickedImage!);
+  bool _isvalidForm()
+  {
+    return textController.text.isNotEmpty && _pickedImage != null && _pickedPosition != null;
+  }
+
+
+  void submitForm() {
+    if (!_isvalidForm()) return;
+    print(_isvalidForm());
+
+    Provider.of<GreatPlaces>(
+      context,
+      listen: false,
+    ).addPlace(textController.text, _pickedImage!, _pickedPosition!);
     Navigator.of(context).pop();
   }
 
@@ -44,21 +63,24 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
                 child: Column(
                   children: [
                     TextField(
-                      cursorColor: Colors.black,
                       controller: textController,
+                      cursorColor: Colors.black,
                       decoration: InputDecoration(
                         labelText: "Titulo",
-                        enabledBorder: UnderlineInputBorder( // Linha quando NÃO está em foco
-                          borderSide: BorderSide(
-                            color: Colors.grey,
-                          ), 
+                        enabledBorder: UnderlineInputBorder(
+                          // Linha quando NÃO está em foco
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                       ),
+                      onChanged: (text)
+                      {
+                        setState(() {});
+                      },
                     ),
                     SizedBox(height: 20),
                     ImageInput(_selectImage),
                     SizedBox(height: 20),
-                    LocationInput()
+                    LocationInput(onSelectPosition: _selectPosition),
                   ],
                 ),
               ),
@@ -80,7 +102,7 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
                         .zero, // Para deixar o botão num formato retangular
               ),
             ),
-            onPressed: submitForm,
+            onPressed: _isvalidForm() ? submitForm : null,
           ),
         ],
       ),

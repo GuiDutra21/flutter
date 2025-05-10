@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Tela de login que é utilizada para algumas ações
 class LoadingPage extends StatelessWidget {
   const LoadingPage({super.key});
 

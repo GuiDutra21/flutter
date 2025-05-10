@@ -1,5 +1,6 @@
 import 'dart:io';
 
+// Classe modelo que representa os dados do formulário
 enum AuthMode {Signup, Login}
 
 class AuthFormData {

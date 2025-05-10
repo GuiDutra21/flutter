@@ -1,8 +1,14 @@
+import 'dart:io';
+
+import 'package:chat/components/user_image_picker.dart';
 import 'package:chat/models/auth_form_data.dart';
 import 'package:flutter/material.dart';
 
+// Componente do formlário
 class AuthForm extends StatefulWidget {
-  const AuthForm({super.key});
+  final void Function(AuthFormData) onSubmit;
+
+  const AuthForm({required this.onSubmit, super.key});
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -12,9 +18,29 @@ class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   final _formData = AuthFormData();
 
+  void _handleImagePick(File image) {
+    _formData.image = image;
+  }
+
+  void _showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 1, milliseconds: 500),
+        content: Text(msg),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ),
+    );
+  }
+
   void _submit() {
     final isValid = _formKey.currentState?.validate() ?? false;
-    if(!isValid) return;
+    if (!isValid) return;
+
+    if (_formData.image == null && _formData.isSignup) {
+      _showError('Selecione uma imagem!');
+    }
+    FocusScope.of(context).unfocus();
+    widget.onSubmit(_formData);
   }
 
   @override
@@ -28,15 +54,18 @@ class _AuthFormState extends State<AuthForm> {
           child: Column(
             children: [
               if (_formData.isSignup)
+                UserImagePicker(onImagePick: _handleImagePick),
+              if (_formData.isSignup)
                 TextFormField(
-                  key: ValueKey('name'), // Identifica unicamente este campo na arvre de widgets, evitando transferencia de valores entre os elementos da arvore de forma indesejada
+                  key: ValueKey(
+                    'name',
+                  ), // Identifica unicamente este campo na arvre de widgets, evitando transferencia de valores entre os elementos da arvore de forma indesejada
                   initialValue: _formData.name,
                   onChanged: (name) => _formData.name = name,
                   decoration: InputDecoration(labelText: 'Nome'),
                   validator: (_name) {
                     final name = _name ?? '';
-                    if(name.trim().length < 5)
-                    {
+                    if (name.trim().length < 5) {
                       return 'Nome deve ter no minimo 5 caracteres';
                     }
                     return null;
@@ -48,14 +77,13 @@ class _AuthFormState extends State<AuthForm> {
                 initialValue: _formData.email,
                 onChanged: (email) => _formData.email = email,
                 decoration: InputDecoration(labelText: 'E-mail'),
-                 validator: (_email) {
-                    final email = _email ?? '';
-                    if(!email.contains('@'))
-                    {
-                      return 'E-mail informado não é valido';
-                    }
-                    return null;
-                  },
+                validator: (_email) {
+                  final email = _email ?? '';
+                  if (!email.contains('@')) {
+                    return 'E-mail informado não é valido';
+                  }
+                  return null;
+                },
               ),
 
               TextFormField(
@@ -66,8 +94,7 @@ class _AuthFormState extends State<AuthForm> {
                 decoration: InputDecoration(labelText: 'Senha'),
                 validator: (_password) {
                   final password = _password ?? '';
-                  if(password.length < 6)
-                  {
+                  if (password.length < 6) {
                     return 'A senha deve ter no minimo 6 caracteres';
                   }
                   return null;
@@ -80,7 +107,7 @@ class _AuthFormState extends State<AuthForm> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
                 ),
-                onPressed:_submit,
+                onPressed: _submit,
                 child: Text(
                   _formData.isLogin ? 'Entrar' : 'Cadastrar',
                   style: TextStyle(color: Colors.white),

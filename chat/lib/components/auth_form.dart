@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:chat/components/user_image_picker.dart';
-import 'package:chat/models/auth_form_data.dart';
+import 'package:chat/core/models/auth_form_data.dart';
 import 'package:flutter/material.dart';
 
 // Componente do formlário
 class AuthForm extends StatefulWidget {
+  
   final void Function(AuthFormData) onSubmit;
 
   const AuthForm({required this.onSubmit, super.key});
@@ -14,7 +15,7 @@ class AuthForm extends StatefulWidget {
   State<AuthForm> createState() => _AuthFormState();
 }
 
-class _AuthFormState extends State<AuthForm> {
+class _AuthFormState extends State<AuthForm> with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _formData = AuthFormData();
 
@@ -23,6 +24,7 @@ class _AuthFormState extends State<AuthForm> {
   }
 
   void _showError(String msg) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: Duration(seconds: 1, milliseconds: 500),
@@ -36,7 +38,7 @@ class _AuthFormState extends State<AuthForm> {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) return;
 
-    if (_formData.image == null && _formData.isSignup) {
+    if (_formData.isSignup && _formData.image == null  ) {
       _showError('Selecione uma imagem!');
     }
     FocusScope.of(context).unfocus();
@@ -47,11 +49,16 @@ class _AuthFormState extends State<AuthForm> {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(15),
+      elevation: 15,
+      shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(7),
+      ),
       child: Padding(
         padding: EdgeInsets.all(15),
         child: Form(
-          key: _formKey,
+          key: _formKey, // Sem isso não tem como fazer validações, savar os dados do formulário e etc
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (_formData.isSignup)
                 UserImagePicker(onImagePick: _handleImagePick),
@@ -71,7 +78,7 @@ class _AuthFormState extends State<AuthForm> {
                     return null;
                   },
                 ),
-
+    
               TextFormField(
                 key: ValueKey('email'),
                 initialValue: _formData.email,
@@ -85,7 +92,7 @@ class _AuthFormState extends State<AuthForm> {
                   return null;
                 },
               ),
-
+    
               TextFormField(
                 key: ValueKey('password'),
                 initialValue: _formData.password,
@@ -100,9 +107,9 @@ class _AuthFormState extends State<AuthForm> {
                   return null;
                 },
               ),
-
+    
               const SizedBox(height: 12),
-
+    
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
@@ -113,7 +120,7 @@ class _AuthFormState extends State<AuthForm> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-
+    
               TextButton(
                 child: Text(
                   _formData.isLogin ? 'Criar uma conta ?' : 'Já possui conta ?',

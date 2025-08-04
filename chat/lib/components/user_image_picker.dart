@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-// Componente que representa a foto e o botão no começo do formulário
+// Componente que representa a foto e o botão de adicionar no começo do formulário de inscrição
 class UserImagePicker extends StatefulWidget {
   final void Function(File image) onImagePick;
 
@@ -17,7 +17,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
   File? _image;
 
   Future<void> _pickImage(ImageSource source) async {
-  FocusScope.of(context).unfocus();
+  // FocusScope.of(context).unfocus(); // Remove o foco de qualquer campo de texto ou input que estiver ativo
   final picker = ImagePicker();
   final pickedImage = await picker.pickImage(
     source: source,
@@ -29,7 +29,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
     setState(() {
       _image = File(pickedImage.path);
     });
-    widget.onImagePick(_image!);
+    widget.onImagePick(_image!); // CallBack
   }
 }
 

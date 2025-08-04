@@ -1,5 +1,6 @@
 import 'package:chat/components/auth_form.dart';
-import 'package:chat/models/auth_form_data.dart';
+import 'package:chat/core/models/auth_form_data.dart';
+import 'package:chat/core/services/auth/auth_mock_service.dart';
 import 'package:flutter/material.dart';
 
 // Página inicial com os campos de login/cadastro
@@ -14,11 +15,29 @@ class _AuthPageState extends State<AuthPage> {
 
   bool isLoading = false;
 
-  void _handleSubmit(AuthFormData formData) {
-    setState(() => isLoading = true);
-    print("teste\n");
-    print(formData.email);
-    setState(() => isLoading = false);
+  Future<void> _handleSubmit(AuthFormData formData) async {
+    try
+    {
+      setState(() => isLoading = true);
+      
+      if(formData.isLogin)
+      {
+        AuthMockService().login(formData.email,formData.password);
+      }
+      else
+      {
+        AuthMockService().signup(formData.email,formData.password,formData.name, formData.image);
+      }
+    }
+    catch (error)
+    {
+      // Tratar o erro depois
+    }
+    finally
+    {
+      setState(() => isLoading = false);
+    }
+
   }
 
   @override
@@ -32,7 +51,7 @@ class _AuthPageState extends State<AuthPage> {
               child: AuthForm(onSubmit: _handleSubmit),
             ),
           ),
-          if(isLoading)
+          if(isLoading) // "Escurece" a tela e faz aparecer o circulo de loading
             Container(
               decoration: BoxDecoration(
                 color: Color.fromRGBO(0, 0, 0, 0.5)

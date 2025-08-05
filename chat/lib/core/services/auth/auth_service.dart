@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:chat/core/models/chat_user.dart';
+import 'package:chat/core/services/auth/auth_mock_service.dart';
 
 // Classe abstrata referente ao serviço de autenticação, lembra uma interface do java,
 abstract class AuthService {
@@ -13,4 +14,9 @@ abstract class AuthService {
   Future<void> signup(String name, String email, String password, File? image);
 
   Future<void> logout();
+
+  factory AuthService()
+  {
+    return AuthMockService();
+  }
 }

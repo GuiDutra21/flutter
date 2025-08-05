@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: Colors.blue,
       primary: Colors.blue[700],
-      onPrimary: Colors.green,
+      onPrimary: Colors.white,
       brightness: Brightness.light, // ou Brightness.dark para modo escuro
     );
 
@@ -24,11 +24,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: colorScheme,
         useMaterial3: true, // Habilita Material Design 3
-        scaffoldBackgroundColor: colorScheme.primary,
+        scaffoldBackgroundColor: Colors.white,
 
         appBarTheme: AppBarTheme(
           backgroundColor: colorScheme.primary,
           foregroundColor: colorScheme.onPrimary,
+          centerTitle: true
         ),
 
         textTheme: const TextTheme(

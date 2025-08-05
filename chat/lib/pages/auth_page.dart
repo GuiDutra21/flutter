@@ -1,6 +1,6 @@
 import 'package:chat/components/auth_form.dart';
 import 'package:chat/core/models/auth_form_data.dart';
-import 'package:chat/core/services/auth/auth_mock_service.dart';
+import 'package:chat/core/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 // Página inicial com os campos de login/cadastro
@@ -19,14 +19,13 @@ class _AuthPageState extends State<AuthPage> {
     try
     {
       setState(() => isLoading = true);
-      
       if(formData.isLogin)
       {
-        AuthMockService().login(formData.email,formData.password);
+        AuthService().login(formData.email,formData.password);
       }
       else
       {
-        AuthMockService().signup(formData.email,formData.password,formData.name, formData.image);
+        AuthService().signup(formData.name, formData.email, formData.password, formData.image);
       }
     }
     catch (error)

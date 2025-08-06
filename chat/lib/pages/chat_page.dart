@@ -1,6 +1,5 @@
 import 'package:chat/components/messages.dart';
 import 'package:chat/components/new_message.dart';
-import 'package:chat/core/services/auth/auth_mock_service.dart';
 import 'package:chat/core/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -46,14 +45,11 @@ class ChatPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(child: (Messages())),
+              Expanded(child: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: (Messages()),
+              )),
               NewMessage(),
-              TextButton(
-                onPressed: () {
-                  AuthMockService().logout();
-                },
-                child: const Text('Logout'),
-              ),
             ],
           ),
         ),

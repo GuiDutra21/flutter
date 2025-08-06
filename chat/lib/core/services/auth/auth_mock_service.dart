@@ -8,7 +8,7 @@ import 'package:chat/core/services/auth/auth_service.dart';
 // Classe que implementa a interface de serviço
 class AuthMockService implements AuthService {
 
-  static final _defaultUser = ChatUser(id: '1', name: 'teste', email: 'Teste@gmai.com', imageUrl: 'assets/images/avatar.png' );
+  static final _defaultUser = ChatUser(id: '2', name: 'Savarino', email: 'Savarino@gmai.com', imageUrl: 'assets/images/avatar.png');
   static final Map<String, ChatUser> _users = {
     _defaultUser.email : _defaultUser
   };

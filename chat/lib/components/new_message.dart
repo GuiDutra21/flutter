@@ -6,17 +6,17 @@ class NewMessage extends StatefulWidget {
   const NewMessage({super.key});
 
   @override
-  State<NewMessage> createState() => _newMessageState();
+  State<NewMessage> createState() => _NewMessageState();
 }
 
-class _newMessageState extends State<NewMessage> {
+class _NewMessageState extends State<NewMessage> {
   final _messageController = TextEditingController();
   String _message = '';
 
   Future<void> _sendMessage() async {
     final user = AuthService().currentUser;
     if (user != null) {
-      await ChatService().save(_message, user!);
+      await ChatService().save(_message, user);
       _messageController.clear();
     }
   }
@@ -42,6 +42,7 @@ class _newMessageState extends State<NewMessage> {
             _message.trim().isEmpty ? null : _sendMessage();
           },
           icon: Icon(Icons.send),
+          color: Colors.grey,
         ),
       ],
     );

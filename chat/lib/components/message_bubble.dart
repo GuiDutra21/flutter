@@ -17,12 +17,11 @@ class MessageBubble extends StatelessWidget {
   Widget _showUserImage(String imageUrl) {
     ImageProvider? provider;
     final uri = Uri.parse(imageUrl);
-
     if(uri.path.contains(_defaultImage))
     {
       provider = AssetImage(_defaultImage);
     }
-    else if(uri.scheme == 'http')
+    else if(uri.scheme == 'http' || uri.scheme == 'https')
     {
       provider = NetworkImage(uri.toString());
     }

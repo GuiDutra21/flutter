@@ -36,24 +36,25 @@ class Campo {
       throw ExplosaoException();
     }
 
-    for (var v in vizinhos) {
-      v.abrir();
+    if (vizinhacaSegura) {
+      for (var v in vizinhos) {
+        v.abrir();
+      }
     }
   }
 
   void minar() {
     _minado = true;
   }
-  
+
   void revelarBomba() {
     if (_minado) {
       _aberto = true;
     }
   }
 
-
   void alterarMarcao() {
-    _marcado != _marcado;
+    _marcado = !_marcado;
   }
 
   void reiniciar() {

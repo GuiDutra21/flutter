@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+// import 'package:flutter_mobx/flutter_mobx.dart';
+// import 'package:pomodoro/store/contador_store.dart';
 import 'package:pomodoro/pages/pomodoro.dart';
-import 'package:pomodoro/store/contador_store.dart';
 import 'package:pomodoro/store/pomodoro_store.dart';
 import 'package:provider/provider.dart';
 
